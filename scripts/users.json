@@ -1,0 +1,32 @@
+[{
+	"createdAt" : "2018-01-08T09:23:03.532Z",
+	"userId": "user0000000001",
+	"userName" : "test1",
+	"firstName": "first1",
+	"middleName": "middle1",
+	"lastName": "last1",
+	"age": 30,
+	"designation": "Teacher",
+	"authToken": ""
+},
+{
+	"createdAt" : "2018-01-08T09:23:03.532Z",
+	"userId": "user0000000002",
+	"userName" : "test2",
+	"firstName": "first2",
+	"middleName": "middle2",
+	"lastName": "last2",
+	"age": 31,
+	"designation": "Assistant",
+	"authToken": ""
+},{
+	"createdAt" : "2018-01-08T09:23:03.532Z",
+	"userId": "user0000000003",
+	"userName" : "test3",
+	"firstName": "first3",
+	"middleName": "middle3",
+	"lastName": "last3",
+	"age": 32,
+	"designation": "Clerk",
+	"authToken": ""
+}]
