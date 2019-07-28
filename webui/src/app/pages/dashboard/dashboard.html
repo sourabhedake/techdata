@@ -1,0 +1,36 @@
+<div class="row" ng-controller="dashboardCtrl">
+  <div class="col-md-6">
+    <div ba-panel ba-panel-title="Loans" ba-panel-class="with-scroll ">
+      <span ng-if="!status.loanData">
+        <h5 style="color:red">No Data available</h5>
+      </span>
+      <span ng-if="status.loanData && status.loanData.length">
+        <div class="chartjs-canvas-holder-first-row">
+          <canvas id="pie" class="chart chart-pie" chart-options="status.loanOptions" chart-data="status.loanData"
+            chart-labels="status.loanLabels">
+          </canvas>
+        </div>
+      </span>
+      <span ng-if="status.loanData && !status.loanData.length">
+        <h5>No loan data available</h5>
+      </span>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div ba-panel ba-panel-title="Pending EMIs" ba-panel-class="with-scroll ">
+      <span ng-if="!status.pendingEMIData">
+        <h5 style="color:red">No Data available</h5>
+      </span>
+      <span ng-if="status.pendingEMIData && status.pendingEMIData.length">
+        <div class="chartjs-canvas-holder-first-row">
+          <canvas id="pie" class="chart chart-pie" chart-options="status.pendingEMIOptions" chart-data="status.pendingEMIData"
+            chart-labels="status.pendingEMILabels">
+          </canvas>
+        </div>
+      </span>
+      <span ng-if="status.pendingEMIData && !pendingEMIStatus.pendingEMIData.length ">
+        <h5 style="color:green">No pending EMIs for members :)</h5>
+      </span>
+    </div>
+  </div>
+</div>

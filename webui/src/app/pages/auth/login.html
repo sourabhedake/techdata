@@ -1,0 +1,33 @@
+<div class="login" ng-controller="loginCtrl as ctrl">
+  <main class="auth-main">
+    <div class="auth-block">
+      <h1>TechData</h1>
+      <h4>Sign in to continue</h4>
+      <form class="form-horizontal" ng-submit="ctrl.login()">
+        <div class="form-group">
+          <label for="username" class="col-sm-2 control-label">Username</label>
+
+          <div class="col-sm-10">
+            <input type="text" ng-model="ctrl.user" class="form-control" id="username" placeholder="Username">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password" class="col-sm-2 control-label">Password</label>
+
+          <div class="col-sm-10">
+            <input type="password" ng-model="ctrl.password" class="form-control" id="password" placeholder="Password">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Sign in</button>
+            <button type="button" class="btn btn-default" ng-click="ctrl.forgotPassword()">
+              Forgot Password
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="auth-sep">{{ ctrl.error }}</div>
+  </main>
+  </div>

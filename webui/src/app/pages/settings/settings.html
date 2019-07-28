@@ -1,0 +1,28 @@
+<div class="panel with-scroll animated zoomIn" zoom-in="">
+    <div class="panel-heading clearfix"><h3 class="panel-title"> settings </h3></div>
+    <div class="panel-body">
+        <div class="ng-scope">
+            <div class="form-group">
+                <label for="input01"> Organisation Name </label>
+                <input type="text" class="form-control" id="input01" name="name" placeholder="Name" ng-model="ctrl.organisation.name">
+            </div>
+            <div class="form-group">
+                <label for="input02"> Address </label>
+                <input type="text" class="form-control" id="input02" name="address" placeholder="Address" ng-model="ctrl.organisation.address">
+            </div>
+            <div class="form-group">
+                <label for="input03"> Phone </label>
+                <input type="text" class="form-control" id="input03" name="phone" placeholder="Phone" ng-model="ctrl.organisation.phone">
+            </div>
+            <div class="form-group">
+                <label for="input04"> Loan Interest Rate </label>
+                <input type="number" class="form-control" id="input04" name="InterestRate" placeholder="loanInterestRate" ng-model="ctrl.organisation.loanInterestRate">
+            </div>
+            <div class="form-group">
+                <label for="input05"> Emergency Loan Interest Rate </label>
+                <input type="number" class="form-control" id="input05" name="emergencyRate" placeholder="Emergency Loan Interest Rate" ng-model="ctrl.organisation.emergencyLoanInterestRate">
+            </div>
+            <div class="button-wrapper"><button type="button" class="btn btn-primary" ng-click="ctrl.update()"> Update </button></div>
+        </div>
+    </div>
+</div>

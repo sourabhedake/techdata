@@ -1,0 +1,19 @@
+<div class="panel panel-primary bootstrap-panel">
+  <div class="panel-heading">
+    Dashboard
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-4" ng-controller="loanCtrl">
+        <div ba-panel ba-panel-title="Loans" ba-panel-class="with-scroll ">
+          <div class="chartjs-canvas-holder-first-row">
+            <canvas id="pie" class="chart chart-pie" chart-options="options" chart-data="data" chart-labels="labels"
+              chart-click="changeData">
+            </canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
