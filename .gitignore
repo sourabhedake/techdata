@@ -3,6 +3,6 @@ techdata.code-workspace
 webservice/node_modules
 webservice/package-lock.json
 webui/.tmp
-webui/bower_components
 webui/node_modules
 webui/package-lock.json
+webui/design/node_modules

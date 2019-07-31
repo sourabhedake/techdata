@@ -10,7 +10,7 @@ Start web-service server:
 `npm start`
 
 Node requirements:
-  node -> v8.9.1
+  node -> v10.16.0
   npm  -> v6.10.2
 
 Database:

@@ -26,6 +26,7 @@ async function resetPassword() {
 
 async function seeder() {
     // clear all data
+    console.log("Script clears all the users and adds 1 admin user and 3 standard users");
     await db.users.deleteMany()
     // insert seed data
     await db.users.insertMany(usersJson)
