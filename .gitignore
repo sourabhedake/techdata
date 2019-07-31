@@ -5,4 +5,4 @@ webservice/package-lock.json
 webui/.tmp
 webui/node_modules
 webui/package-lock.json
-webui/design/node_modules
+webui/design
