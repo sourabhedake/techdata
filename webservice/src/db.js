@@ -28,9 +28,7 @@ const user = mongoose.Schema({
     email: String,
     password: String,
     firstName: String,
-    middleName: String,
     lastName: String,
-    mobile: String,
     authToken: String
 }, {
     versionKey: false,
@@ -38,8 +36,69 @@ const user = mongoose.Schema({
         createdAt: 'createdAt',
         updatedAt: 'updatedAt'
     }
-})
+});
+
+const questions = mongoose.Schema({
+    questionId: String,
+    questionText: String,
+    quiz: quiz,
+    practice: practice,
+    choice: [String],
+    answer: Number
+}, {
+    versionKey: false,
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
+});
+
+const domain = mongoose.Schema({
+    domainId: String,
+    name: String,
+    description: String,
+    img: String,
+    quiz: [quiz]
+}, {
+    versionKey: false,
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
+});
+
+const practice = mongoose.Schema({
+    practiceId: String,
+    name: String,
+    domain: domain,
+    img: String,
+    description: String,
+}, {
+    versionKey: false,
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
+});
+
+const quiz = mongoose.Schema({
+    quizId: String,
+    name: String,
+    domain: domain,
+    img: String,
+    description: String,
+}, {
+    versionKey: false,
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt'
+    }
+});
 
 module.exports = {
-    users: mongoose.model('users', user),
+    users:      mongoose.model('users', user),
+    domain:     mongoose.model('domain', domain),
+    practice:   mongoose.model('practice', practice),
+    quiz:       mongoose.model('quiz', quiz),
+    questions:  mongoose.model('questions', questions)
 }

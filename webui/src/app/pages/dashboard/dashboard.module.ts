@@ -38,7 +38,7 @@ import { NewsPostPlaceholderComponent } from './infinite-list/news-post-placehol
   declarations: [
     DashboardComponent,
     NewsPostPlaceholderComponent,
-    NewsPostComponent
-  ]
+    NewsPostComponent,
+  ],
 })
 export class DashboardModule { }

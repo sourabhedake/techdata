@@ -37,5 +37,5 @@ export const MENU_ITEMS: NbMenuItem[] = [
     title: 'Log out',
     icon: 'layout-outline',
     link: '/pages/layout/stepper',
-  }
+  },
 ];
