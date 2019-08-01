@@ -41,8 +41,8 @@ const user = mongoose.Schema({
 const questions = mongoose.Schema({
     questionId: String,
     questionText: String,
-    quiz: quiz,
-    practice: practice,
+    quizId: String,
+    practiceId: String,
     choice: [String],
     answer: Number
 }, {
@@ -58,7 +58,7 @@ const domain = mongoose.Schema({
     name: String,
     description: String,
     img: String,
-    quiz: [quiz]
+    quizId: [String]
 }, {
     versionKey: false,
     timestamps: {
@@ -67,7 +67,7 @@ const domain = mongoose.Schema({
     }
 });
 
-const practice = mongoose.Schema({
+practice = mongoose.Schema({
     practiceId: String,
     name: String,
     domain: domain,
@@ -81,7 +81,7 @@ const practice = mongoose.Schema({
     }
 });
 
-const quiz = mongoose.Schema({
+quiz = mongoose.Schema({
     quizId: String,
     name: String,
     domain: domain,
