@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbMenuItem, NbMenuBag } from '@nebular/theme';
 
-import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { UserService } from '../../../@core/utils/users.service';
+import { PagesRoutingModule } from '../../../pages/pages-routing.module';
+import { AppRoutingModule } from '../../../app-routing.module';
+import { RouterModule, Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -38,22 +41,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
-
+  userMenu = []
+  
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserService,
+    private layoutService: LayoutService,
+    private router: Router,
+    private breakpointService: NbMediaBreakpointsService) {
+      
   }
-
+    
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.guest);
+    var guestUser = {name: 'Guest', picture: 'assets/images/guest.png'}
+    this.userService.getUser()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((user: any) => {
+      if (user === null) {
+        this.user = guestUser;
+        this.userMenu = [{ title: 'Log in', data: { id: 'login' } }];
+      } else {
+        this.user = user 
+        this.userMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' } }];
+      }
+    });
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
@@ -69,6 +82,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
+    
+    this.menuService.onItemClick()
+      .subscribe((menu: NbMenuBag) => {
+        console.log("menu" , menu);
+        if (menu.item.data && menu.item.data.id === 'login') { 
+          console.log("login");
+          this.router.navigate(['/auth/login']);
+        }
+      });
   }
 
   ngOnDestroy() {

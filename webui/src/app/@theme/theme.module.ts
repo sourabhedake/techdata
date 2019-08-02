@@ -38,10 +38,13 @@ import { DEFAULT_THEME } from './styles/theme.default';
 import { COSMIC_THEME } from './styles/theme.cosmic';
 import { CORPORATE_THEME } from './styles/theme.corporate';
 import { DARK_THEME } from './styles/theme.dark';
+import { AppRoutingModule } from '../app-routing.module';
+import { NbAuthModule } from '@nebular/auth';
 
 const NB_MODULES = [
   NbLayoutModule,
   NbMenuModule,
+  NbAuthModule,
   NbUserModule,
   NbActionsModule,
   NbSearchModule,
@@ -53,6 +56,7 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
 ];
+
 const COMPONENTS = [
   HeaderComponent,
   FooterComponent,
