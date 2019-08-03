@@ -43,7 +43,7 @@ const questions = mongoose.Schema({
     questionText: String,
     quizId: String,
     practiceId: String,
-    choice: [String],
+    choice: [{ type: String }],
     answer: Number
 }, {
     versionKey: false,
@@ -58,7 +58,7 @@ const domain = mongoose.Schema({
     name: String,
     description: String,
     img: String,
-    quizId: [String]
+    quizId: [{ type:String }]
 }, {
     versionKey: false,
     timestamps: {
@@ -84,7 +84,7 @@ practice = mongoose.Schema({
 quiz = mongoose.Schema({
     quizId: String,
     name: String,
-    domain: domain,
+    domain: String,
     img: String,
     description: String,
 }, {
