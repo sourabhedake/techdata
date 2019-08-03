@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-const WEB_SERVER: String = "http://localhost:3000";
+const WEB_SERVER: string = "http://localhost:3000";
 const URLS = {
 
   /* Authentication Routes*/
@@ -15,6 +15,8 @@ const URLS = {
 
 @Injectable()
 export class RestClientService {
+  static BASE: string = WEB_SERVER;
+  static PATHS = URLS;
   
   constructor(private rclient: HttpClient) {  }
 

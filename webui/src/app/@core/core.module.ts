@@ -1,7 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
+import { NbAuthModule, NbDummyAuthStrategy, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -102,20 +102,55 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
-  ...NbAuthModule.forRoot({
 
+  ...NbAuthModule.forRoot({
     strategies: [
-      NbDummyAuthStrategy.setup({
+      NbPasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
+
+        token: {
+          class: NbAuthJWTToken
+        },
+
+        baseEndpoint: '',
+        login: {
+          alwaysFail: false,
+          endpoint: RestClientService.PATHS.AUTH_LOGIN,
+          method: 'post',
+          redirect: {
+            success: '/pages',
+            failure: null,
+          },
+          defaultErrors: ['Invalid email or password, please try again.'],
+        },
+        logout: {
+          alwaysFail: false,
+          endpoint: RestClientService.PATHS.AUTH_LOGOUT,
+          // method: 'delete',
+          redirect: {
+            success: '/pages',
+            failure: null,
+          },
+        },
       }),
     ],
     forms: {
       login: {
-        socialLinks: socialLinks,
+        redirectDelay: 0,
+        strategy: 'email',
+        rememberMe: false,
+        showMessages: {
+          success: false,
+          error: true,
+        },
       },
-      register: {
-        socialLinks: socialLinks,
+      logout: {
+        redirectDelay: 0,
+        strategy: 'email',
+        showMessages: {
+          success: false,
+          error: true,
+        },
       },
     },
   }).providers,

@@ -5,9 +5,7 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UserService } from '../../../@core/utils/users.service';
-import { PagesRoutingModule } from '../../../pages/pages-routing.module';
-import { AppRoutingModule } from '../../../app-routing.module';
-import { RouterModule, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -61,10 +59,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     .subscribe((user: any) => {
       if (user === null) {
         this.user = guestUser;
-        this.userMenu = [{ title: 'Log in', data: { id: 'login' } }];
+        this.userMenu = [{ title: 'Log in', data: { id: 'login' }, link: '/auth/login' }];
       } else {
         this.user = user 
-        this.userMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' } }];
+        this.userMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' }, link: '/auth/logout'  }];
       }
     });
 
@@ -82,15 +80,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.currentTheme = themeName);
-    
-    this.menuService.onItemClick()
-      .subscribe((menu: NbMenuBag) => {
-        console.log("menu" , menu);
-        if (menu.item.data && menu.item.data.id === 'login') { 
-          console.log("login");
-          this.router.navigate(['/auth/login']);
-        }
-      });
   }
 
   ngOnDestroy() {
