@@ -1,5 +1,9 @@
 'use strict'
+const {
+    wrapHandlerModule
+} = require('../util')
 
+const handler = wrapHandlerModule(require('./handler'))
 const Router = require('koa-router')
 const {
     authorize
@@ -10,5 +14,6 @@ const router = new Router({
 })
 
 router.use(authorize)
+router.post('/schedule', handler.scheduleQuiz)
 
 module.exports = router
