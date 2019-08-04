@@ -44,4 +44,3 @@ module.exports = {
     scheduleQuiz
 }
 
-const util = require('../util')
