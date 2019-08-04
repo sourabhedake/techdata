@@ -97,6 +97,7 @@ async function addQuestion({
 async function showAllQuizzes({
 
 }) {
+
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
         return util.httpResponse(400, {
@@ -261,6 +262,15 @@ async function showQuestion({
                 })
             }
         }  
+        const quesDetails = {
+            question: result.questionText,
+            choices: result.choice,
+            answer: result.answer
+
+        }
+        return util.httpResponse(200, {
+            result: quesDetails
+        })
     }
 }
 
@@ -298,6 +308,19 @@ async function showAllQuestions({
             message: 'No Questions allowed found'
         })
     }
+    const resultArray = []
+    for (var res of result) {
+        const questionDetails = {
+            questionId: res.questionId,
+            questionText: res.questionText,
+            choice: res.choice,
+            answer: res.answer
+        }
+        resultArray.push(questionDetails)
+    }
+    return util.httpResponse(200, {
+        result: resultArray
+    })
 }
 
 module.exports = {

@@ -43,3 +43,5 @@ async function scheduleQuiz({
 module.exports = {
     scheduleQuiz
 }
+
+const util = require('../util')
