@@ -29,6 +29,7 @@ const user = mongoose.Schema({
     password: String,
     firstName: String,
     lastName: String,
+    role: String,
     authToken: String
 }, {
     versionKey: false,
@@ -87,6 +88,8 @@ quiz = mongoose.Schema({
     domain: String,
     img: String,
     description: String,
+    startTime: String,
+    interval: Number
 }, {
     versionKey: false,
     timestamps: {

@@ -53,10 +53,24 @@ async function signin({
 
 async function signup({
     userName,
-    password
+    password,
+    role,
+    firstName,
+    lastName,
+    email
 }) {
+    if (!userName) {
+        return util.httpResponse(400, {
+            message: 'Insufficient Info'
+        })
+    }
+    if (!password) {
+        return util.httpResponse(400, {
+            message: 'Insufficient Info'
+        })
+    }
     const result = await db.users.findOne({
-        userName
+        userName: userName
     })
 
     if (result) {
@@ -73,9 +87,14 @@ async function signup({
     })
 
     await db.users.findOneAndUpdate({
-        userName
+        userId
     }, {
-        password: util.sha512(password, user.createdAt.toUTCString())
+        userName:userName,
+        role:role,
+        password: util.sha512(password, user.createdAt.toUTCString()),
+        firstName: firstName,
+        lastName: lastName,
+        email: email
     })
 
     return util.httpResponse(200, {
@@ -113,8 +132,31 @@ async function resetPassword({
     })
 }
 
+async function getUserDetails({
+    userId
+}) {
+    const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
+    if (!result) {
+        return util.httpResponse(400, {
+            message: 'No user with this userId found'
+        })
+    }
+    else {
+        const userDetails = {
+            userName: result.userName,
+            firstName: result.firstName,
+            lastName: result.lastName,
+            email: result.email
+        }
+        return util.httpResponse(200, {
+            result: userDetails
+        })
+    }
+}
+
 module.exports = {
     signin,
     signup,
-    resetPassword
+    resetPassword,
+    getUserDetails
 }

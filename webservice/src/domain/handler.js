@@ -97,7 +97,7 @@ async function addQuestion({
 async function showAllQuizzes({
 
 }) {
-    console.log("jello");
+
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
         return util.httpResponse(400, {
@@ -240,6 +240,28 @@ async function showQuestion({
         })
     }
     else {
+        const result1 = await db.quiz.findOne({ quizId: result.quizId })
+        if (result1) {
+            var date = new Date();
+
+            var startTime = result1.startTime;
+            var activationTime = new Date(startTime);
+
+            if (date > activationTime) {
+                const quesDetails = {
+                    question: result.questionText,
+                    choices: result.choice
+                }
+                return util.httpResponse(200, {
+                    result: quesDetails
+                })
+            }
+            else {
+                return util.httpResponse(200, {
+                    message: 'No Questions found'
+                })
+            }
+        }  
         const quesDetails = {
             question: result.questionText,
             choices: result.choice,
@@ -255,10 +277,35 @@ async function showQuestion({
 async function showAllQuestions({
     quizId
 }) {
-    const result = await db.questions.find({ quizId: quizId }, { questionId: 1, questionText: 1, choice: 1, answer: 1 })
+    const result = await db.questions.find({ quizId: quizId }, { startTime: 1, questionId: 1, questionText: 1, choice: 1, answer: 1 })
     if (!result) {
         return util.httpResponse(400, {
             message: 'No Questions found'
+        })
+    }
+    var date = new Date();
+    const result1 = await db.quiz.findOne({ quizId: quizId }, {
+        startTime: 1
+    })
+    var startTime = result1.startTime;
+    var activationTime = new Date(startTime);
+    if (date > activationTime) {
+        const resultArray = []
+        for (var res of result) {
+            const questionDetails = {
+                questionId: res.questionId,
+                questionText: res.questionText,
+                choice: res.choice
+            }
+            resultArray.push(questionDetails)
+        }
+        return util.httpResponse(200, {
+            result: resultArray
+        })
+    }
+    else {
+        return util.httpResponse(400, {
+            message: 'No Questions allowed found'
         })
     }
     const resultArray = []
@@ -274,7 +321,6 @@ async function showAllQuestions({
     return util.httpResponse(200, {
         result: resultArray
     })
-
 }
 
 module.exports = {

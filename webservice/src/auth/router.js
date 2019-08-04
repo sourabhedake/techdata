@@ -14,4 +14,6 @@ const router = new Router({
 router.post('/signin', handler.signin)
 router.post('/signup', handler.signup)
 router.post('/resetpassword', handler.resetPassword)
+router.post('/user',handler.getUserDetails)
+
 module.exports = router
