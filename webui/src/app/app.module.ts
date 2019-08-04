@@ -28,7 +28,7 @@ import {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-
+    
     ThemeModule.forRoot(),
 
     NbSidebarModule.forRoot(),

@@ -53,6 +53,7 @@ const NB_MODULES = [
   NbIconModule,
   NbEvaIconsModule,
 ];
+
 const COMPONENTS = [
   HeaderComponent,
   FooterComponent,

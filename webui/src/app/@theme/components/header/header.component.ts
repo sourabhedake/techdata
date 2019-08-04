@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService } from '@nebular/theme';
+import { NbMediaBreakpointsService, NbMenuService, NbSidebarService, NbThemeService, NbMenuItem, NbMenuBag } from '@nebular/theme';
 
-import { UserData } from '../../../@core/data/users';
 import { LayoutService } from '../../../@core/utils';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { UserService } from '../../../@core/utils/users.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -38,22 +39,32 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = [ { title: 'Profile' }, { title: 'Log out' } ];
-
+  userMenu = []
+  
   constructor(private sidebarService: NbSidebarService,
-              private menuService: NbMenuService,
-              private themeService: NbThemeService,
-              private userService: UserData,
-              private layoutService: LayoutService,
-              private breakpointService: NbMediaBreakpointsService) {
+    private menuService: NbMenuService,
+    private themeService: NbThemeService,
+    private userService: UserService,
+    private layoutService: LayoutService,
+    private router: Router,
+    private breakpointService: NbMediaBreakpointsService) {
+      
   }
-
+    
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
-
-    this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.guest);
+    var guestUser = {name: 'Guest', picture: 'assets/images/guest.png'}
+    this.userService.getUser()
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((user: any) => {
+      if (user === null) {
+        this.user = guestUser;
+        this.userMenu = [{ title: 'Log in', data: { id: 'login' }, link: '/auth/login' }];
+      } else {
+        this.user = user 
+        this.userMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' }, link: '/auth/logout'  }];
+      }
+    });
 
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()

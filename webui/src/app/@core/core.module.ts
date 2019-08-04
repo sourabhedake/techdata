@@ -1,6 +1,7 @@
 import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
+import { HttpClientModule } from '@angular/common/http';
+import { NbAuthModule, NbDummyAuthStrategy, NbPasswordAuthStrategy, NbAuthJWTToken } from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -10,8 +11,9 @@ import {
   LayoutService,
   PlayerService,
   StateService,
+  RestClientService,
+  UserService,
 } from './utils';
-import { UserData } from './data/users';
 import { ElectricityData } from './data/electricity';
 import { SmartTableData } from './data/smart-table';
 import { UserActivityData } from './data/user-activity';
@@ -31,7 +33,6 @@ import { StatsProgressBarData } from './data/stats-progress-bar';
 import { VisitorsAnalyticsData } from './data/visitors-analytics';
 import { SecurityCamerasData } from './data/security-cameras';
 
-import { UserService } from './mock/users.service';
 import { ElectricityService } from './mock/electricity.service';
 import { SmartTableService } from './mock/smart-table.service';
 import { UserActivityService } from './mock/user-activity.service';
@@ -71,7 +72,6 @@ const socialLinks = [
 ];
 
 const DATA_SERVICES = [
-  { provide: UserData, useClass: UserService },
   { provide: ElectricityData, useClass: ElectricityService },
   { provide: SmartTableData, useClass: SmartTableService },
   { provide: UserActivityData, useClass: UserActivityService },
@@ -102,20 +102,55 @@ export class NbSimpleRoleProvider extends NbRoleProvider {
 export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
-  ...NbAuthModule.forRoot({
 
+  ...NbAuthModule.forRoot({
     strategies: [
-      NbDummyAuthStrategy.setup({
+      NbPasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
+
+        token: {
+          class: NbAuthJWTToken
+        },
+
+        baseEndpoint: '',
+        login: {
+          alwaysFail: false,
+          endpoint: RestClientService.PATHS.AUTH_LOGIN,
+          method: 'post',
+          redirect: {
+            success: '/pages',
+            failure: null,
+          },
+          defaultErrors: ['Invalid email or password, please try again.'],
+        },
+        logout: {
+          alwaysFail: false,
+          endpoint: RestClientService.PATHS.AUTH_LOGOUT,
+          // method: 'delete',
+          redirect: {
+            success: '/pages',
+            failure: null,
+          },
+        },
       }),
     ],
     forms: {
       login: {
-        socialLinks: socialLinks,
+        redirectDelay: 0,
+        strategy: 'email',
+        rememberMe: false,
+        showMessages: {
+          success: false,
+          error: true,
+        },
       },
-      register: {
-        socialLinks: socialLinks,
+      logout: {
+        redirectDelay: 0,
+        strategy: 'email',
+        showMessages: {
+          success: false,
+          error: true,
+        },
       },
     },
   }).providers,
@@ -141,11 +176,14 @@ export const NB_CORE_PROVIDERS = [
   LayoutService,
   PlayerService,
   StateService,
+  RestClientService,
+  UserService,
 ];
 
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
   ],
   exports: [
     NbAuthModule,

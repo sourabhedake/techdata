@@ -15,16 +15,13 @@ export class DashboardComponent implements OnDestroy {
   };
   pageSize = 10;
 
-  loadNext(cardData, $timeout, $scope) {
+  loadNext(cardData) {
     if (cardData.loading) { return; }
     cardData.loading = true;
-    cardData.placeholders = new Array(this.pageSize);
-    $timeout(function () { $scope.displayErrorMsg = false; }, 2000);
-
     cardData.placeholders = [];
-    cardData.news.push([{ 'title': 'title', 'text': 'text' }]);
+    cardData.news.push({ 'title': 'title', 'text': 'text' });
     cardData.loading = false;
-    cardData.pageToLoadNext++;
+    // cardData.pageToLoadNext++;
   }
 
   ngOnDestroy() {
