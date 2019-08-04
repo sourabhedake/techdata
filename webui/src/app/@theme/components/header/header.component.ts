@@ -5,7 +5,6 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UserService } from '../../../@core/utils/users.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-header',
@@ -46,9 +45,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: NbThemeService,
     private userService: UserService,
     private layoutService: LayoutService,
-    private router: Router,
     private breakpointService: NbMediaBreakpointsService) {
-      
+
   }
     
   ngOnInit() {

@@ -15,8 +15,8 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
 import { FormsModule } from '@angular/forms';
-import { NewsPostComponent } from './infinite-list/news-post/news-post.component';
-import { NewsPostPlaceholderComponent } from './infinite-list/news-post-placeholder/news-post-placeholder.component';
+import { QuizComponent } from './quiz-card/quiz.component';
+import { QuizBoardComponent } from './quiz-board/quiz.component';
 
 
 @NgModule({
@@ -37,8 +37,8 @@ import { NewsPostPlaceholderComponent } from './infinite-list/news-post-placehol
   ],
   declarations: [
     DashboardComponent,
-    NewsPostPlaceholderComponent,
-    NewsPostComponent,
+    QuizBoardComponent,
+    QuizComponent,
   ],
 })
 export class DashboardModule { }

@@ -4,10 +4,14 @@ const koa = require('koa')
 const compress = require('koa-compress')
 const router = require('./src/router')
 const cors = require('kcors')
+const util = require('./src/util')
+const KeyGrip = require("keygrip")
 
 const koaBody = require('koa-body')({
     multipart: true
 })
+
+const app = new koa()
 
 global.base_dir = __dirname;
 global.abs_path = function (path) {
@@ -17,7 +21,8 @@ global.include = function (file) {
     return require(abs_path('/' + file));
 }
 
-const app = new koa()
+app.keys = new KeyGrip ([util.generateRandomString(25)], "sha256")
+
 app.use(cors())
 app.use(compress({
     level: 3

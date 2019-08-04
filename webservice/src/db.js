@@ -27,8 +27,7 @@ const user = mongoose.Schema({
     userName: String,
     email: String,
     password: String,
-    firstName: String,
-    lastName: String,
+    fullName: String,
     authToken: String
 }, {
     versionKey: false,

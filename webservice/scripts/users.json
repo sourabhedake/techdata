@@ -1,26 +1,22 @@
 [{
 	"createdAt" : "2018-01-08T09:23:03.532Z",
 	"userId": "1",
+	"email": "no@gmail.com",
 	"userName" : "test1",
-	"firstName": "first1",
-	"middleName": "middle1",
-	"lastName": "last1",
+	"fullName": "first last",
 	"authToken": ""
-},
-{
-	"createdAt" : "2018-01-08T09:23:03.532Z",
+}, {
+	"createdAt": "2018-01-08T09:23:03.532Z",
 	"userId": "2",
-	"userName" : "test2",
-	"firstName": "first2",
-	"middleName": "middle2",
-	"lastName": "last2",
+	"email": "something@gmail.com",
+	"userName": "test2",
+	"fullName": "first last",
 	"authToken": ""
-},{
-	"createdAt" : "2018-01-08T09:23:03.532Z",
+}, {
+	"createdAt": "2018-01-08T09:23:03.532Z",
 	"userId": "3",
-	"userName" : "test3",
-	"firstName": "first3",
-	"middleName": "middle3",
-	"lastName": "last3",
+	"email": "yes@gmail.com",
+	"userName": "test3",
+	"fullName": "first last",
 	"authToken": ""
 }]

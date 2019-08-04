@@ -1,4 +1,10 @@
-import {Component, OnDestroy} from '@angular/core';
+import {
+  Component,
+  OnDestroy
+} from '@angular/core';
+import {
+  count
+} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -7,23 +13,98 @@ import {Component, OnDestroy} from '@angular/core';
 })
 export class DashboardComponent implements OnDestroy {
 
-  firstCard = {
-    news: [],
-    placeholders: [],
-    loading: false,
+  quizTypes = {
+    ACTIVE: 'active',
+    UPCOMING: 'upcoming',
+    ARCHIVE: 'archives',
+  }
+
+  quizList = {
+    archives: {
+      quiz: [],
+      quizBucket: [],
+      loading: false,
+      count: 0
+    },
+    upcoming: {
+      quiz: [],
+      quizBucket: [],
+      loading: false,
+      count: 0
+    },
+    active: {
+      quiz: [],
+      quizBucket: [],
+      loading: false,
+      count: 0
+    },
     pageToLoadNext: 1,
   };
-  pageSize = 10;
 
-  loadNext(cardData) {
-    if (cardData.loading) { return; }
-    cardData.loading = true;
-    cardData.placeholders = [];
-    cardData.news.push({ 'title': 'title', 'text': 'text' });
-    cardData.loading = false;
-    // cardData.pageToLoadNext++;
+  pushIntoQuiz(q: any, newQuiz: any) {
+    if (q.quiz.length === 0) {
+      q.quiz = [newQuiz];
+    } else {
+      q.quiz.push(newQuiz);
+    }
+    q.count++;
+
+    this.pushIntoQuizBucket(q, newQuiz, 4);
   }
 
-  ngOnDestroy() {
+  pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {
+    console.log(q.quizBucket)
+    console.log(q.quizBucket.length)
+    if (q.quizBucket.length === 0) {
+      q.quizBucket = [
+        [
+          newQuiz
+        ]
+      ];
+    } else if (q.quizBucket[q.quizBucket.length - 1].length >= bucketSize) {
+      q.quizBucket.push([newQuiz]);
+    } else {
+      q.quizBucket[q.quizBucket.length - 1].push(newQuiz)
+    }
   }
+
+  constructor() {}
+
+  loadNextArchive() {
+    if (this.quizList.archives.loading) {
+      return;
+    }
+    this.quizList.archives.loading = true;
+    this.pushIntoQuiz(this.quizList.archives, {
+      'title': 'title',
+      'text': this.quizList.archives.count
+    });
+    this.quizList.archives.loading = false;
+  }
+
+  loadNextUpcoming() {
+    if (this.quizList.upcoming.loading) {
+      return;
+    }
+    this.quizList.upcoming.loading = true;
+    this.pushIntoQuiz(this.quizList.upcoming, {
+      'title': 'title',
+      'text': this.quizList.upcoming.count
+    });
+    this.quizList.upcoming.loading = false;
+  }
+
+  loadNextActive() {
+    if (this.quizList.active.loading) {
+      return;
+    }
+    this.quizList.active.loading = true;
+    this.pushIntoQuiz(this.quizList.active, {
+      'title': 'title',
+      'text': this.quizList.active.count
+    });
+    this.quizList.active.loading = false;
+  }
+
+  ngOnDestroy() {}
 }

@@ -6,13 +6,20 @@ const crypto = require('crypto')
 function wrapHandler(handler) {
     return async function (ctx, next) {
         try {
-            const response = await handler(ctx.request.body, _.merge(ctx, {}), next)
+            const response = await handler(ctx.request.body, ctx, next)
+            console.log(ctx.cookies.get('token'));
             if (response.redirect)
                 ctx.redirect(response.redirect)
-            for (const key in response)
+            for (const key in response) {
                 ctx[key] = response[key]
+            }
+        // console.log(response.body.data ? response.body.data.token: 'ss');
+            // if (response.body.data && response.body.data.token) {
+                // ctx.cookies.set('token', response.body.data.token, {httpOnly: true, signed: true} );
+            // }
+        // console.log(ctx.cookies.get('token'));
+
         } catch (error) {
-            console.log(error)
             ctx.status = 500
             ctx.body = {
                 error: ' Internal Server Error. Please contact administrator.'

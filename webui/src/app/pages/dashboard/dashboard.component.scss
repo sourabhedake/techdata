@@ -6,23 +6,19 @@
 
   .infinite-cards {
     nb-card {
-      &.own-scroll {
+      &.own-scroll.horizontal {
         height: -webkit-fill-available;
         nb-card-header {
           align-items: center;
         }
       }
-    }
-  }
+      &.own-scroll.vertical {
+        height: 20rem;
 
-  .solar-card nb-card-header {
-    border: none;
-    padding-bottom: 0;
-  }
-
-  @include media-breakpoint-down(sm) {
-    ngx-traffic {
-      display: none;
+        nb-card-header {
+          align-items: center;
+        }
+      }
     }
   }
 }
