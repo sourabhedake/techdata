@@ -95,14 +95,26 @@ async function logout(
 async function signup({
     fullName,
     email,
-    password
+    password,
+    role,
+    email
 }) {
+    if (!email) {
+        return util.httpResponse(400, {
+            message: 'Insufficient Info'
+        })
+    }
+    if (!password) {
+        return util.httpResponse(400, {
+            message: 'Insufficient Info'
+        })
+    }
     const result = await db.users.findOne({
         email
     })
 
     if (result) {
-        return util.httpResponse(400, {
+        return util.httpResponse(404, {
             message: 'User already exists'
         })
     }
@@ -110,15 +122,17 @@ async function signup({
     const userId = util.generateRandomString(5)
 
     const user = await db.users.create({
-        email,
         userId,
-        fullName
     })
 
     await db.users.findOneAndUpdate({
-        userName
+        userId
     }, {
-        password: util.sha512(password, user.createdAt.toUTCString())
+        userName:userName,
+        role:role,
+        password: util.sha512(password, user.createdAt.toUTCString()),
+        fullName: fullName,
+        email: email
     })
 
     return util.httpResponse(200, {
@@ -156,9 +170,32 @@ async function resetPassword({
     })
 }
 
+async function getUserDetails({
+    userId
+}) {
+    const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
+    if (!result) {
+        return util.httpResponse(400, {
+            message: 'No user with this userId found'
+        })
+    }
+    else {
+        const userDetails = {
+            userName: result.userName,
+            firstName: result.firstName,
+            lastName: result.lastName,
+            email: result.email
+        }
+        return util.httpResponse(200, {
+            result: userDetails
+        })
+    }
+}
+
 module.exports = {
     login,
     logout,
     signup,
-    resetPassword
+    resetPassword,
+    getUserDetails
 }

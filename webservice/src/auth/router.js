@@ -15,5 +15,6 @@ router.post('/login', handler.login)
 router.delete('/logout', handler.logout)
 router.post('/signup', handler.signup)
 router.post('/resetpassword', handler.resetPassword)
+router.post('/user',handler.getUserDetails)
 
 module.exports = router
