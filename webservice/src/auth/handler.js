@@ -11,7 +11,7 @@ const jwtExp = 24 * 60 * 60;
 async function login(
     request_body, ctx
 ) {
-    const email  = request_body.email;
+    const email = request_body.email;
     const password = request_body.password;
 
     const user = await db.users.findOne({
@@ -64,9 +64,8 @@ async function login(
     })
 }
 
-async function logout(
-    request_body
-) {
+async function logout(request_body, ctx)
+{
     // email="aa";
     // const user = await db.users.findOne({
     //     email
@@ -92,13 +91,12 @@ async function logout(
     return util.httpResponse(200)
 }
 
-async function signup({
-    fullName,
-    email,
-    password,
-    role,
-    email
-}) {
+async function signup(request_body, ctx) {
+    const fullName = request_body.fullName;
+    const email = request_body.email;
+    const password = request_body.password;
+    const role = request_body.role;
+
     if (!email) {
         return util.httpResponse(400, {
             message: 'Insufficient Info'
@@ -140,10 +138,10 @@ async function signup({
     })
 }
 
-async function resetPassword({
-    userName,
-    password
-}) {
+async function resetPassword(request_body) {
+    const userName = request_body.userName;
+    const password = request_body.password;
+
     if (!userName) {
         return util.httpResponse(400, {
             message: 'Invalid username provided'
@@ -170,9 +168,9 @@ async function resetPassword({
     })
 }
 
-async function getUserDetails({
-    userId
-}) {
+async function getUserDetails(request_body, ctx) {
+    const userId = request_body.userId;
+
     const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
     if (!result) {
         return util.httpResponse(400, {

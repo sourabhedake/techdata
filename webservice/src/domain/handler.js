@@ -4,12 +4,11 @@ const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
 
-async function createQuiz({
-    quizName,
-    domainName,
-    description
+async function createQuiz(request_body, ctx) {
+    const quizName = request_body.quizName;
+    const domainName = request_body.domainName;
+    const description = request_body.description;
 
-}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -68,12 +67,12 @@ async function createQuiz({
     }
 }
 
-async function addQuestion({
-    quizId,
-    questionText,
-    choice,
-    answer
-}) {
+async function addQuestion(request_body, ctx) {
+    const quizId = request_body.quizId;
+    const questionText = request_body.questionText;
+    const choice = request_body.choice;
+    const answer = request_body.answer;
+
     const questionId = util.generateRandomString(5)
     await db.questions.create({
         questionText,
@@ -94,9 +93,7 @@ async function addQuestion({
 
 }
 
-async function showAllQuizzes({
-
-}) {
+async function showAllQuizzes(request_body, ctx) {
 
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
@@ -119,9 +116,9 @@ async function showAllQuizzes({
 
 }
 
-async function showQuiz({
-    quizId
-}) {
+async function showQuiz(request_body, ctx) {
+    const quizId = request_body.quizId;
+
     const result = await db.quiz.findOne({ quizId: quizId });
     if (!result) {
         return util.httpResponse(400, {
@@ -139,9 +136,7 @@ async function showQuiz({
     }
 }
 
-async function showAllDomains({
-
-}) {
+async function showAllDomains() {
     const result = await db.domain.find({}, { domainId: 1, name: 1, description: 1 })
     if (!result) {
         return util.httpResponse(400, {
@@ -163,9 +158,9 @@ async function showAllDomains({
 
 }
 
-async function showDomain({
-    domainId
-}) {
+async function showDomain() {
+    const domainId = request_body.domainId;
+
     const resultArray = [];
     const result = await db.domain.findOne({ domainId: domainId });
     if (!result) {
@@ -196,11 +191,10 @@ async function showDomain({
     })
 }
 
-async function createDomain({
-    domainName,
-    description
+async function createDomain(request_body, ctx) {
+    const domainName = request_body.domainName;
+    const description = request_body.description;
 
-}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -230,9 +224,9 @@ async function createDomain({
     }
 }
 
-async function showQuestion({
-    questionId
-}) {
+async function showQuestion(request_body, ctx) {
+    const questionId = request_body.questionId;
+
     const result = await db.questions.findOne({ questionId: questionId })
     if (!result) {
         return util.httpResponse(400, {
@@ -274,9 +268,9 @@ async function showQuestion({
     }
 }
 
-async function showAllQuestions({
-    quizId
-}) {
+async function showAllQuestions(request_body, ctx) {
+    const quizId = request_body.quizId;
+
     const result = await db.questions.find({ quizId: quizId }, { startTime: 1, questionId: 1, questionText: 1, choice: 1, answer: 1 })
     if (!result) {
         return util.httpResponse(400, {
