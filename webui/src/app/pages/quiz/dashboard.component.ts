@@ -49,7 +49,7 @@ export class DashboardComponent implements OnDestroy {
     }
     q.count++;
 
-    this.pushIntoQuizBucket(q, newQuiz, 4);
+    this.pushIntoQuizBucket(q, newQuiz, 6);
   }
 
   pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {

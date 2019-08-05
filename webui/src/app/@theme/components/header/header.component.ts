@@ -5,6 +5,8 @@ import { LayoutService } from '../../../@core/utils';
 import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UserService } from '../../../@core/utils/users.service';
+import { Router } from '@angular/router';
+import { routedComponents } from '../../../../../design/src/app/pages/tables/tables-routing.module';
 
 @Component({
   selector: 'ngx-header',
@@ -45,7 +47,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private themeService: NbThemeService,
     private userService: UserService,
     private layoutService: LayoutService,
-    private breakpointService: NbMediaBreakpointsService) {
+    private breakpointService: NbMediaBreakpointsService,
+    private router: Router) {
 
   }
     
@@ -98,6 +101,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   navigateHome() {
     this.menuService.navigateHome();
+    return false;
+  }
+
+  navigateQuiz() {
+    this.router.navigateByUrl('pages/quiz');
     return false;
   }
 }
