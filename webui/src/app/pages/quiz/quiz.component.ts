@@ -4,11 +4,11 @@ import {
 } from '@angular/core';
 
 @Component({
-  selector: 'ngx-dashboard',
-  styleUrls: ['./dashboard.component.scss'],
-  templateUrl: './dashboard.component.html',
+  selector: 'ngx-quiz',
+  styleUrls: ['./quiz.component.scss'],
+  templateUrl: './quiz.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class QuizComponent implements OnDestroy {
 
   quizTypes = {
     ACTIVE: 'active',
@@ -46,7 +46,7 @@ export class DashboardComponent implements OnDestroy {
     }
     q.count++;
 
-    this.pushIntoQuizBucket(q, newQuiz, 4);
+    this.pushIntoQuizBucket(q, newQuiz, 6);
   }
 
   pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {
