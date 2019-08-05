@@ -2,16 +2,13 @@ import {
   Component,
   OnDestroy
 } from '@angular/core';
-import {
-  count
-} from 'rxjs/operators';
 
 @Component({
-  selector: 'ngx-dashboard',
-  styleUrls: ['./dashboard.component.scss'],
-  templateUrl: './dashboard.component.html',
+  selector: 'ngx-quiz',
+  styleUrls: ['./quiz.component.scss'],
+  templateUrl: './quiz.component.html',
 })
-export class DashboardComponent implements OnDestroy {
+export class QuizComponent implements OnDestroy {
 
   quizTypes = {
     ACTIVE: 'active',

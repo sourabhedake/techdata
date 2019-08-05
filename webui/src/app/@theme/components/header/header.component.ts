@@ -6,7 +6,6 @@ import { map, takeUntil, filter } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { UserService } from '../../../@core/utils/users.service';
 import { Router } from '@angular/router';
-import { routedComponents } from '../../../../../design/src/app/pages/tables/tables-routing.module';
 
 @Component({
   selector: 'ngx-header',

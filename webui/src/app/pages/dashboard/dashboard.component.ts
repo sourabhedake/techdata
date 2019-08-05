@@ -2,9 +2,6 @@ import {
   Component,
   OnDestroy
 } from '@angular/core';
-import {
-  count
-} from 'rxjs/operators';
 
 @Component({
   selector: 'ngx-dashboard',
