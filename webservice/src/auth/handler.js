@@ -3,39 +3,50 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const jwt = require('jsonwebtoken')
 
-async function signin({
-    userName,
-    password
-}) {
-    console.log (userName)
-    console.log (password)
+const jwtKey = util.generateRandomString(25)
+const jwtExp = 24 * 60 * 60;
+
+async function login(
+    request_body, ctx
+) {
+    const email = request_body.email;
+    const password = request_body.password;
 
     const user = await db.users.findOne({
-        userName
+        email
     })
 
     if (!user) {
         return util.httpResponse(400, {
-            message: 'Invalid user namssse or password entered'
+            message: 'Invalid email or password entered'
         })
     }
 
     const encryptedPassword = user.password
-    const authToken = util.generateRandomString(25)
 
     const isValidUser = encryptedPassword === util.sha512(password, user.createdAt.toUTCString())
 
     if (!isValidUser) {
         return util.httpResponse(400, {
-            message: 'Invalid user name or password entered'
+            message: 'Invalid email or password entered'
         })
     }
 
-    const updatedUser = await db.users.findOneAndUpdate({
+    const token = jwt.sign({ 
+        email, 
+        userId: user.userId,
+        name: user.fullName
+    }, jwtKey, {
+        algorithm: 'HS256',
+        expiresIn: jwtExp
+    })
+
+    await db.users.findOneAndUpdate({
         userId: user.userId
     }, {
-        authToken
+            authToken: token
     }, {
         new: true,
         select: {
@@ -44,22 +55,49 @@ async function signin({
         }
     })
 
+    ctx.cookies.set('token', token, {httpOnly: true, signed: true});
     return util.httpResponse(200, {
-        message: 'Login successful',
-        authToken: updatedUser.authToken,
-        client: true
+        data: {
+            token: token,
+            userId: user.userId
+        }
     })
 }
 
-async function signup({
-    userName,
-    password,
-    role,
-    firstName,
-    lastName,
-    email
-}) {
-    if (!userName) {
+async function logout(request_body, ctx)
+{
+    // email="aa";
+    // const user = await db.users.findOne({
+    //     email
+    // })
+
+    // if (!user) {
+    //     return util.httpResponse(400, {
+    //         message: 'Invalid email entered'
+    //     })
+    // }
+
+    // await db.users.findOneAndUpdate({
+    //     userId: user.userId
+    // }, {
+    //         authToken: ''
+    //     }, {
+    //         new: true,
+    //         select: {
+    //             authToken: 1,
+    //             _id: 0
+    //         }
+    //     })
+    return util.httpResponse(200)
+}
+
+async function signup(request_body, ctx) {
+    const fullName = request_body.fullName;
+    const email = request_body.email;
+    const password = request_body.password;
+    const role = request_body.role;
+
+    if (!email) {
         return util.httpResponse(400, {
             message: 'Insufficient Info'
         })
@@ -70,11 +108,11 @@ async function signup({
         })
     }
     const result = await db.users.findOne({
-        userName: userName
+        email
     })
 
     if (result) {
-        return util.httpResponse(400, {
+        return util.httpResponse(404, {
             message: 'User already exists'
         })
     }
@@ -82,8 +120,7 @@ async function signup({
     const userId = util.generateRandomString(5)
 
     const user = await db.users.create({
-        userName,
-        userId
+        userId,
     })
 
     await db.users.findOneAndUpdate({
@@ -92,20 +129,19 @@ async function signup({
         userName:userName,
         role:role,
         password: util.sha512(password, user.createdAt.toUTCString()),
-        firstName: firstName,
-        lastName: lastName,
+        fullName: fullName,
         email: email
     })
 
     return util.httpResponse(200, {
-        message: 'user created successfully'
+        message: 'User signup is successful'
     })
 }
 
-async function resetPassword({
-    userName,
-    password
-}) {
+async function resetPassword(request_body) {
+    const userName = request_body.userName;
+    const password = request_body.password;
+
     if (!userName) {
         return util.httpResponse(400, {
             message: 'Invalid username provided'
@@ -132,9 +168,9 @@ async function resetPassword({
     })
 }
 
-async function getUserDetails({
-    userId
-}) {
+async function getUserDetails(request_body, ctx) {
+    const userId = request_body.userId;
+
     const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
     if (!result) {
         return util.httpResponse(400, {
@@ -155,7 +191,8 @@ async function getUserDetails({
 }
 
 module.exports = {
-    signin,
+    login,
+    logout,
     signup,
     resetPassword,
     getUserDetails
