@@ -4,11 +4,11 @@ const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
 
-async function scheduleQuiz(request_body, ctx) {
-    const quizId = request_body.quizId;
-    const startTime = request_body.startTime;
-    const interval = request_body.interval;
-
+async function scheduleQuiz({
+    quizId,
+    startTime,
+    interval
+}) {
     if (!quizId) {
         return util.httpResponse(400, {
             message: 'Insufficient Info to schedule'

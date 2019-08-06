@@ -3,20 +3,24 @@
 const db = require('../db')
 
 async function authorize(ctx, next) {
-    if (!ctx.request.header['auth-token']) {
+    if (!ctx.request.header['authorization']) {
         ctx.status = 401
         ctx.body = {
-            error: 'You are not authorized'
+            data: {
+                errMsg: 'You are not authorized'
+            }
         }
         return ctx
     }
     const user = await db.users.findOne({
-        authToken: ctx.request.header['auth-token']
+        authToken: ctx.request.header['authorization']
     })
     if(!user) {
         ctx.status = 401
         ctx.body = {
-            error: 'You are not authorized'
+            data: {
+                errMsg: 'You are not authorized'
+            }
         }
         return ctx
     }

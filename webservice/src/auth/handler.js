@@ -8,12 +8,10 @@ const jwt = require('jsonwebtoken')
 const jwtKey = util.generateRandomString(25)
 const jwtExp = 24 * 60 * 60;
 
-async function login(
-    request_body, ctx
-) {
-    const email = request_body.email;
-    const password = request_body.password;
-
+async function login({
+    email,
+    password
+}) {
     const user = await db.users.findOne({
         email
     })
@@ -46,7 +44,7 @@ async function login(
     await db.users.findOneAndUpdate({
         userId: user.userId
     }, {
-            authToken: token
+            authToken: 'Bearer ' + token
     }, {
         new: true,
         select: {
@@ -55,39 +53,44 @@ async function login(
         }
     })
 
-    ctx.cookies.set('token', token, {httpOnly: true, signed: true});
     return util.httpResponse(200, {
         data: {
-            token: token,
-            userId: user.userId
+            token: token
         }
     })
 }
 
-async function logout(request_body, ctx)
+async function logout({}, ctx)
 {
-    // email="aa";
-    // const user = await db.users.findOne({
-    //     email
-    // })
+    if (!ctx.request.header['authorization']) {
+        return util.httpResponse(401, {
+            message: 'You are not authorized'
+        })
+    }
 
-    // if (!user) {
-    //     return util.httpResponse(400, {
-    //         message: 'Invalid email entered'
-    //     })
-    // }
+    const user = await db.users.findOne({
+        authToken: ctx.request.header['authorization']
+    })
 
-    // await db.users.findOneAndUpdate({
-    //     userId: user.userId
-    // }, {
-    //         authToken: ''
-    //     }, {
-    //         new: true,
-    //         select: {
-    //             authToken: 1,
-    //             _id: 0
-    //         }
-    //     })
+    if (!user) {
+        return util.httpResponse(401, {
+            message: 'You are not authorized'
+        })
+    }
+    
+    await db.users.findOneAndUpdate({
+        userId: user.userId
+    }, {
+        authToken: ''
+    }, {
+        new: true,
+        select: {
+            authToken: 1,
+                _id: 0
+            }
+        })
+    ctx.user = null
+
     return util.httpResponse(200)
 }
 
@@ -168,9 +171,9 @@ async function resetPassword(request_body) {
     })
 }
 
-async function getUserDetails(request_body, ctx) {
-    const userId = request_body.userId;
-
+async function getUserDetails({
+    userId
+}) {
     const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
     if (!result) {
         return util.httpResponse(400, {

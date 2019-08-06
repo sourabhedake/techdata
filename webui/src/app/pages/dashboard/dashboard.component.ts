@@ -50,8 +50,6 @@ export class DashboardComponent implements OnDestroy {
   }
 
   pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {
-    console.log(q.quizBucket)
-    console.log(q.quizBucket.length)
     if (q.quizBucket.length === 0) {
       q.quizBucket = [
         [

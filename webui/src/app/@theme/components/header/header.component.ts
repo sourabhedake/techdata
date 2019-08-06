@@ -50,7 +50,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     private router: Router) {
 
   }
-    
+
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
     var guestUser = {name: 'Guest', picture: 'assets/images/guest.png'}
