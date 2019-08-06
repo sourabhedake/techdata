@@ -1,9 +1,8 @@
-<div class="row">
-  <ngx-quiz-board class=" col-md-12 col-lg-12" [quizType]="quizTypes.ACTIVE" [quiz]=quizList.active.quiz[0]
-    *ngIf="quizList.active.quiz.length">
+<div class="row" *ngIf="quizList.active.quiz.length">
+  <ngx-quiz-board class=" col-md-12 col-lg-12" [quizType]="quizTypes.ACTIVE" [quiz]=quizList.active.quiz[0]>
   </ngx-quiz-board>
 </div>
-<div class="row">
+<div class="row" *ngIf="quizList.active.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="primary">
       <nb-card-header>Active Quizes</nb-card-header>
@@ -17,12 +16,11 @@
     </nb-card>
   </div>
 </div>
-<div class="row">
-  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.UPCOMING" [quiz]=quizList.upcoming.quiz[0]
-    *ngIf="quizList.upcoming.quiz.length">
+<div class="row" *ngIf="quizList.upcoming.quiz.length">
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.UPCOMING" [quiz]=quizList.upcoming.quiz[0]>
   </ngx-quiz-board>
 </div>
-<div class="row">
+<div class="row" *ngIf="quizList.upcoming.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="info">
       <nb-card-header>Upcoming Quizes</nb-card-header>
@@ -37,12 +35,12 @@
     </nb-card>
   </div>
 </div>
-<div class="row">
+<div class="row" *ngIf="quizList.archive.quiz.length">
   <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.ARCHIVE" [quiz]=quizList.archive.quiz[0]
     *ngIf="quizList.archive.quiz.length">
   </ngx-quiz-board>
 </div>
-<div class="row">
+<div class="row" *ngIf="quizList.archive.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="danger">
       <nb-card-header>Archive Quiz</nb-card-header>
