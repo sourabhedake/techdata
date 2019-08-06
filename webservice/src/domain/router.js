@@ -11,8 +11,8 @@ const router = new Router({
     prefix: '/domain'
 })
 
-router.get('/quiz/showAll', handler.showAllQuizzes)
 router.post('/quiz/create', handler.createQuiz)
+router.get('/quiz/showAll', handler.showAllQuizzes)
 router.post('/quiz/addQuestion', handler.addQuestion)
 router.post('/quizId', handler.showQuiz)
 router.post('/create', handler.createDomain)

@@ -4,6 +4,10 @@ const {
     wrapHandlerModule
 } = require('../util')
 
+const {
+    authorize
+} = require('./authorize')
+
 const handler = wrapHandlerModule(require('./handler'))
 const Router = require('koa-router')
 
@@ -12,9 +16,10 @@ const router = new Router({
 })
 
 router.post('/login', handler.login)
-router.delete('/logout', handler.logout)
 router.post('/signup', handler.signup)
 router.post('/resetpassword', handler.resetPassword)
 router.post('/user',handler.getUserDetails)
+router.use(authorize);
+router.delete('/logout', handler.logout)
 
 module.exports = router
