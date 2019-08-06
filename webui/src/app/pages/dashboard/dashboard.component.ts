@@ -11,14 +11,9 @@ import { QuizComponent } from '../quiz/quiz.component';
 })
 export class DashboardComponent implements OnDestroy {
 
-  quizTypes = {};
-
-  quizList = {};
-
   constructor(private quizComponent: QuizComponent) {
-    this.quizList = quizComponent.quizList;
-    this.quizTypes = quizComponent.quizTypes;
-  }
+    quizComponent.bucketSize = 4;
+   }
 
   loadNextArchive() {
     this.quizComponent.loadNextArchive();

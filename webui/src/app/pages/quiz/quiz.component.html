@@ -1,5 +1,5 @@
 <div class="row" *ngIf="quizList.active.quiz.length">
-  <ngx-quiz-board class=" col-md-12 col-lg-12" [quizType]="quizTypes.ACTIVE" [quiz]=quizList.active.quiz[0]>
+  <ngx-quiz-board class=" col-md-12 col-lg-12" [quizType]="QUIZ_TYPES.ACTIVE" [quiz]=quizList.active.quiz[0]>
   </ngx-quiz-board>
 </div>
 <div class="row" *ngIf="quizList.active.quizBucket.length">
@@ -17,7 +17,7 @@
   </div>
 </div>
 <div class="row" *ngIf="quizList.upcoming.quiz.length">
-  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.UPCOMING" [quiz]=quizList.upcoming.quiz[0]>
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="QUIZ_TYPES.UPCOMING" [quiz]=quizList.upcoming.quiz[0]>
   </ngx-quiz-board>
 </div>
 <div class="row" *ngIf="quizList.upcoming.quizBucket.length">
@@ -36,7 +36,7 @@
   </div>
 </div>
 <div class="row" *ngIf="quizList.archive.quiz.length">
-  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.ARCHIVE" [quiz]=quizList.archive.quiz[0]
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="QUIZ_TYPES.ARCHIVE" [quiz]=quizList.archive.quiz[0]
     *ngIf="quizList.archive.quiz.length">
   </ngx-quiz-board>
 </div>
