@@ -18,7 +18,6 @@ const router = new Router({
 router.post('/login', handler.login)
 router.post('/signup', handler.signup)
 router.post('/resetpassword', handler.resetPassword)
-router.post('/user',handler.getUserDetails)
 router.use(authorize);
 router.delete('/logout', handler.logout)
 

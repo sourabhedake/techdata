@@ -94,12 +94,7 @@ async function logout({}, ctx)
     return util.httpResponse(200)
 }
 
-async function signup(request_body, ctx) {
-    const fullName = request_body.fullName;
-    const email = request_body.email;
-    const password = request_body.password;
-    const role = request_body.role;
-
+async function signup({ fullName, email, password, role }) {
     if (!email) {
         return util.httpResponse(400, {
             message: 'Insufficient Info'
@@ -171,32 +166,9 @@ async function resetPassword(request_body) {
     })
 }
 
-async function getUserDetails({
-    userId
-}) {
-    const result = await db.users.findOne({ userId: userId }, {userName:1,firstName:1,lastName:1,email:1});
-    if (!result) {
-        return util.httpResponse(400, {
-            message: 'No user with this userId found'
-        })
-    }
-    else {
-        const userDetails = {
-            userName: result.userName,
-            firstName: result.firstName,
-            lastName: result.lastName,
-            email: result.email
-        }
-        return util.httpResponse(200, {
-            result: userDetails
-        })
-    }
-}
-
 module.exports = {
     login,
     logout,
     signup,
-    resetPassword,
-    getUserDetails
+    resetPassword
 }
