@@ -5,6 +5,7 @@ import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { QuizViewComponent } from './quiz/quiz-view/quiz.component';
 
 const routes: Routes = [{
   path: '',
@@ -17,6 +18,10 @@ const routes: Routes = [{
     {
       path: 'quiz',
       component: QuizComponent,
+    },
+    {
+      path: 'quiz/:id',
+      component: QuizViewComponent,
     },
     {
       path: 'miscellaneous',

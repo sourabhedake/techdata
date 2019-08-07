@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {
   RestClientService
-} from '../../@core/utils';
+} from '../../../@core/utils';
 
 @Component({
   selector: 'ngx-quiz',
@@ -12,10 +12,9 @@ import {
   templateUrl: './quiz.component.html',
 })
 
-export class QuizComponent implements OnDestroy {
+export class QuizViewComponent implements OnDestroy {
 
   bucketSize = 6;
-
   QUIZ_TYPES = {
     ACTIVE: 'ACTIVE',
     UPCOMING: 'UPCOMING',
@@ -106,50 +105,41 @@ export class QuizComponent implements OnDestroy {
         console.log("donee" + data);
         this.pushIntoQuiz(quiz, {
           'title': 'title',
-          'text': quizType + quiz.count,
-          'id': quiz.count
+          'text': quizType + quiz.count
         });
       }, (err) => {
         console.log("Error: ", err.error);
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
+            'text': quizType + quiz.count
           });
 
       });
