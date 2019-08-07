@@ -14,6 +14,7 @@ import { QuizCardComponent } from './quiz-card/quiz.component';
 import { QuizBoardComponent } from './quiz-board/quiz.component';
 import { RestClientService } from '../../@core/utils';
 import { QuizViewComponent } from './quiz-view/quiz.component';
+import { QuizPageComponent } from './quiz-page/quiz.component';
 
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import { QuizViewComponent } from './quiz-view/quiz.component';
   declarations: [
     QuizComponent,
     QuizViewComponent,
+    QuizPageComponent,
     QuizCardComponent,
     QuizBoardComponent,
   ],

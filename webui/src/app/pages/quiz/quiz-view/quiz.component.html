@@ -25,7 +25,6 @@
       <nb-tabset fullWidth>
         <nb-tab tabTitle="Contest">
           <span>Contest</span>
-          
         </nb-tab>
         <nb-tab tabTitle="Leaderboard">
           <span>Leaderboard</span>
@@ -41,7 +40,7 @@
   </div>
 </div>
 <div class="row col-md-12 col-lg-12 right">
-  <button nbButton shape="semi-round">
+  <button nbButton shape="semi-round" (click)="navigateQuizPage()">
     Start Contest
   </button>
 </div>
