@@ -11,13 +11,18 @@ const router = new Router({
     prefix: '/domain'
 })
 
+
 router.get('/quiz/showAll', handler.showAllQuizzes)
 router.post('/quiz/create', handler.createQuiz)
 router.post('/quiz/addQuestion', handler.addQuestion)
 router.post('/quizId', handler.showQuiz)
 router.post('/create', handler.createDomain)
 router.get('/showAll', handler.showAllDomains)
-router.post('/domainId', handler.showDomain)
+router.get('/', handler.showDomain(ctx, response))
 router.post('/quiz/questionId', handler.showQuestion)
 router.post('/quiz/questions', handler.showAllQuestions)
+router.get('/quiz/activeQuiz', handler.getActiveQuizzes)
+router.get('/quiz/upcomingQuiz', handler.getUpcomingQuizzes)
+router.post('/quiz/start', handler.startQuiz)
+router.post('/quiz/nextQuestion',handler.nextQuestion)
 module.exports = router
