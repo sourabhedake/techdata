@@ -2,6 +2,7 @@ import {
   Component,
   OnDestroy
 } from '@angular/core';
+import { QuizComponent } from '../quiz/quiz.component';
 
 @Component({
   selector: 'ngx-dashboard',
@@ -10,95 +11,20 @@ import {
 })
 export class DashboardComponent implements OnDestroy {
 
-  quizTypes = {
-    ACTIVE: 'active',
-    UPCOMING: 'upcoming',
-    ARCHIVE: 'archive',
-  }
-
-  quizList = {
-    archive: {
-      quiz: [],
-      quizBucket: [],
-      loading: false,
-      count: 0
-    },
-    upcoming: {
-      quiz: [],
-      quizBucket: [],
-      loading: false,
-      count: 0
-    },
-    active: {
-      quiz: [],
-      quizBucket: [],
-      loading: false,
-      count: 0
-    },
-    pageToLoadNext: 1,
-  };
-
-  pushIntoQuiz(q: any, newQuiz: any) {
-    if (q.quiz.length === 0) {
-      q.quiz = [newQuiz];
-    } else {
-      q.quiz.push(newQuiz);
-    }
-    q.count++;
-
-    this.pushIntoQuizBucket(q, newQuiz, 4);
-  }
-
-  pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {
-    if (q.quizBucket.length === 0) {
-      q.quizBucket = [
-        [
-          newQuiz
-        ]
-      ];
-    } else if (q.quizBucket[q.quizBucket.length - 1].length >= bucketSize) {
-      q.quizBucket.push([newQuiz]);
-    } else {
-      q.quizBucket[q.quizBucket.length - 1].push(newQuiz)
-    }
-  }
-
-  constructor() {}
+  constructor(private quizComponent: QuizComponent) {
+    quizComponent.bucketSize = 4;
+   }
 
   loadNextArchive() {
-    if (this.quizList.archive.loading) {
-      return;
-    }
-    this.quizList.archive.loading = true;
-    this.pushIntoQuiz(this.quizList.archive, {
-      'title': 'title',
-      'text': this.quizList.archive.count
-    });
-    this.quizList.archive.loading = false;
+    this.quizComponent.loadNextArchive();
   }
 
   loadNextUpcoming() {
-    if (this.quizList.upcoming.loading) {
-      return;
-    }
-    this.quizList.upcoming.loading = true;
-    this.pushIntoQuiz(this.quizList.upcoming, {
-      'title': 'title',
-      'text': this.quizList.upcoming.count
-    });
-    this.quizList.upcoming.loading = false;
+    this.quizComponent.loadNextUpcoming();
   }
 
   loadNextActive() {
-    if (this.quizList.active.loading) {
-      return;
-    }
-    this.quizList.active.loading = true;
-    this.pushIntoQuiz(this.quizList.active, {
-      'title': 'title',
-      'text': this.quizList.active.count
-    });
-    this.quizList.active.loading = false;
+    this.quizComponent.loadNextActive();
   }
 
   ngOnDestroy() {}

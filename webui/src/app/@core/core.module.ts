@@ -36,8 +36,8 @@ export const NB_CORE_PROVIDERS = [
         baseEndpoint: '',
         login: {
           alwaysFail: false,
-          endpoint: RestClientService.PATHS.AUTH_LOGIN,
-          method: 'post',
+          endpoint: RestClientService.URLS.AUTH_LOGIN.url,
+          method: RestClientService.URLS.AUTH_LOGIN.method,
           redirect: {
             success: '/pages',
             failure: null,
@@ -46,8 +46,8 @@ export const NB_CORE_PROVIDERS = [
         },
         logout: {
           alwaysFail: false,
-          endpoint: RestClientService.PATHS.AUTH_LOGOUT,
-          // method: 'delete',
+          endpoint: RestClientService.URLS.AUTH_LOGOUT.url,
+          method: RestClientService.URLS.AUTH_LOGOUT.method,
           redirect: {
             success: '/pages',
             failure: null,

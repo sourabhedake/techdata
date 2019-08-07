@@ -1,42 +1,117 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  Injectable
+} from '@angular/core';
+import {
+  HttpClient
+} from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 const WEB_SERVER: string = 'http://localhost:3000';
+const METHODS = {
+  GET: 'get',
+  DELETE: 'delete',
+  POST: 'post',
+}
+
 const URLS = {
   /* Authentication Routes*/
-  AUTH_LOGIN:           WEB_SERVER + '/auth/login',
-  AUTH_LOGOUT:          WEB_SERVER + '/auth/logout',
-  AUTH_RESET_PASSWORD:  WEB_SERVER + '/auth/resetpassword',
-  
+  AUTH_LOGIN: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/auth/login',
+  },
+
+  AUTH_LOGOUT: {
+    method: METHODS.DELETE,
+    url: WEB_SERVER + '/auth/logout',
+  },
+
+  AUTH_RESET_PASSWORD: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/auth/resetpassword',
+  },
+
   /* User Routes */
-  USERS_DETAILS:        WEB_SERVER + '/users/{$$}',
+  USERS_DETAILS: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/users/{$$}',
+  },
 
   /* Quiz Routes */
-  QUIZ_CREATE:          WEB_SERVER + '/quizzes',
-  QUIZ_GET_ALL:         WEB_SERVER + '/quizzes',
-  QUIZ_GET:             WEB_SERVER + '/quizzes/{$$}',
-  QUIZ_SCHEDULE:        WEB_SERVER + '/quizzes/{$$}/schedule',
-  
+  QUIZ_CREATE: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/quizzes',
+  },
+
+  QUIZ_GET_ALL: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/quizzes',
+  },
+
+  QUIZ_GET: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/quizzes/{$$}',
+  },
+
+  QUIZ_SCHEDULE: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/quizzes/{$$}/schedule',
+  },
+
   /* Domain Routes */
-  DOMAIN_GET_CREATE:    WEB_SERVER + '/domains',
-  DOMAIN_GET_ALL:       WEB_SERVER + '/domains',
-  DOMAIN_GET:           WEB_SERVER + '/domains/{$$}',
+  DOMAIN_CREATE: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/domains',
+  },
+
+  DOMAIN_GET_ALL: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/domains',
+  },
+
+  DOMAIN_GET: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/domains/{$$}',
+  },
 
   /* Question Routes */
-  QUESTION_GET_ALL:     WEB_SERVER + '/quizzes/{$$}/questions',
-  QUESTION_GET:         WEB_SERVER + '/quizzes/{$$}/questions/{$$}',
-  QUESTION_CREATE:      WEB_SERVER + '/quizzes/{$$}/questions',
+  QUESTION_GET_ALL: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/quizzes/{$$}/questions',
+  },
+
+  QUESTION_GET: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/quizzes/{$$}/questions/{$$}',
+  },
+
+  QUESTION_CREATE: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/quizzes/{$$}/questions',
+  },
 }
 
 @Injectable()
 export class RestClientService {
   static BASE: string = WEB_SERVER;
-  static PATHS = URLS;
-  
-  constructor(private rclient: HttpClient) {  }
+  static URLS = URLS;
+  public PATHS = URLS;
 
-  public invokeRestCall(uri: string, params: string[]) {
-    this.rclient.get(this.getURI(uri, params));
+  constructor(private rclient: HttpClient) {}
+
+  public call(restDto, query_params: string[] = [], body = {}) : Observable<any> {
+    switch (restDto.method) {
+      case METHODS.GET:
+        return this.rclient.get(this.getURI(restDto.url, query_params));
+      case METHODS.POST:
+        return this.rclient.post(this.getURI(restDto.url, query_params), body);
+      case METHODS.DELETE:
+        return this.rclient.delete(this.getURI(restDto.url, query_params));
+    }
+    return null;
+  }
+
+  public p() {
+    return this.PATHS;
   }
 
   /* getURI

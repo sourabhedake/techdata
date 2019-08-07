@@ -2,21 +2,27 @@ import {
   Component,
   OnDestroy
 } from '@angular/core';
+import {
+  RestClientService
+} from '../../@core/utils';
 
 @Component({
   selector: 'ngx-quiz',
   styleUrls: ['./quiz.component.scss'],
   templateUrl: './quiz.component.html',
 })
+
 export class QuizComponent implements OnDestroy {
 
-  quizTypes = {
-    ACTIVE: 'active',
-    UPCOMING: 'upcoming',
-    ARCHIVE: 'archive',
-  }
+  bucketSize = 6;
 
-  quizList = {
+  QUIZ_TYPES = {
+    ACTIVE: 'ACTIVE',
+    UPCOMING: 'UPCOMING',
+    ARCHIVE: 'ARCHIVE',
+  };
+
+  public quizList = {
     archive: {
       quiz: [],
       quizBucket: [],
@@ -38,69 +44,107 @@ export class QuizComponent implements OnDestroy {
     pageToLoadNext: 1,
   };
 
-  pushIntoQuiz(q: any, newQuiz: any) {
-    if (q.quiz.length === 0) {
-      q.quiz = [newQuiz];
-    } else {
-      q.quiz.push(newQuiz);
-    }
+  private pushIntoQuiz(q: any, newQuiz: any) {
+    q.quiz.push(newQuiz);
     q.count++;
 
-    this.pushIntoQuizBucket(q, newQuiz, 6);
+    this.pushIntoQuizArchiveBucket(q, newQuiz, this.bucketSize);
   }
 
-  pushIntoQuizBucket(q: any, newQuiz: any, bucketSize: Number) {
-    console.log(q.quizBucket)
-    console.log(q.quizBucket.length)
-    if (q.quizBucket.length === 0) {
-      q.quizBucket = [
-        [
-          newQuiz
-        ]
-      ];
+  private pushIntoQuizArchiveBucket(q: any, newQuiz: any, bucketSize: Number) {
+    if (!q.quizBucket[0]) {
+      q.quizBucket[0] = [newQuiz];
+
     } else if (q.quizBucket[q.quizBucket.length - 1].length >= bucketSize) {
       q.quizBucket.push([newQuiz]);
+
     } else {
       q.quizBucket[q.quizBucket.length - 1].push(newQuiz)
     }
   }
 
-  constructor() {}
-
-  loadNextArchive() {
-    if (this.quizList.archive.loading) {
-      return;
-    }
-    this.quizList.archive.loading = true;
-    this.pushIntoQuiz(this.quizList.archive, {
-      'title': 'title',
-      'text': this.quizList.archive.count
-    });
-    this.quizList.archive.loading = false;
+  constructor(private rc: RestClientService) {
+    this.loadNextActive();
+    this.loadNextArchive();
+    this.loadNextUpcoming();
   }
 
+  public loadNextArchive() {
+    this.loadNext(this.QUIZ_TYPES.ARCHIVE);
+  }
+  
   loadNextUpcoming() {
-    if (this.quizList.upcoming.loading) {
-      return;
-    }
-    this.quizList.upcoming.loading = true;
-    this.pushIntoQuiz(this.quizList.upcoming, {
-      'title': 'title',
-      'text': this.quizList.upcoming.count
-    });
-    this.quizList.upcoming.loading = false;
+    this.loadNext(this.QUIZ_TYPES.UPCOMING);
   }
 
   loadNextActive() {
-    if (this.quizList.active.loading) {
+    this.loadNext(this.QUIZ_TYPES.ACTIVE);
+  }
+
+  loadNext(quizType: string) {
+    var quiz;
+    switch (quizType) {
+      case this.QUIZ_TYPES.ARCHIVE:
+        quiz = this.quizList.archive;
+        break;
+      case this.QUIZ_TYPES.ACTIVE:
+        quiz = this.quizList.active;
+        break;
+      case this.QUIZ_TYPES.UPCOMING:
+        quiz = this.quizList.upcoming;
+        break;
+      default:
+        return;
+    }
+    if (quiz.loading) {
       return;
     }
-    this.quizList.active.loading = true;
-    this.pushIntoQuiz(this.quizList.active, {
-      'title': 'title',
-      'text': this.quizList.active.count
-    });
-    this.quizList.active.loading = false;
+    quiz.loading = true;
+    this.rc.call(this.rc.p().QUIZ_GET, [quizType])
+      .pipe()
+      .subscribe(data => {
+        console.log("donee" + data);
+        this.pushIntoQuiz(quiz, {
+          'title': 'title',
+          'text': quizType + quiz.count
+        });
+      }, (err) => {
+        console.log("Error: ", err.error);
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+          this.pushIntoQuiz(quiz, {
+            'title': 'title',
+            'text': quizType + quiz.count
+          });
+
+      });
+    quiz.loading = false;
   }
 
   ngOnDestroy() {}
