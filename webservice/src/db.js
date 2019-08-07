@@ -97,10 +97,49 @@ quiz = mongoose.Schema({
     }
 });
 
+attempt = mongoose.Schema({
+    _id: String,
+    userId: String,
+    quizId: String,
+    attemptId: String,
+    attemptNo: Number,
+    questionId: String,
+    questionStatus: Boolean,
+    answer: Number,
+    userAnswer: Number,
+}, {
+        versionKey: false,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
+});
+
+score = mongoose.Schema({
+    userId: String,
+    quizId: String,
+    attemptId: String,
+    attemptNo: Number,
+    correct: Number,
+    totalQuestions: Number,
+    state: Boolean
+}, {
+        versionKey: false,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
+});
+
+
+
+
 module.exports = {
     users:      mongoose.model('users', user),
     domain:     mongoose.model('domain', domain),
     practice:   mongoose.model('practice', practice),
     quiz:       mongoose.model('quiz', quiz),
-    questions:  mongoose.model('questions', questions)
+    questions:  mongoose.model('questions', questions),
+    attempt:    mongoose.model('attempt', attempt),
+    score:      mongoose.model('score',score)
 }

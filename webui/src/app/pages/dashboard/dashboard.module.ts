@@ -15,9 +15,9 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DashboardComponent } from './dashboard.component';
 import { FormsModule } from '@angular/forms';
-import { QuizComponent } from './quiz-card/quiz.component';
-import { QuizBoardComponent } from './quiz-board/quiz.component';
-
+import { QuizModule } from '../quiz/quiz.module';
+import { QuizCardComponent } from '../quiz/quiz-card/quiz.component';
+import { QuizBoardComponent } from '../quiz/quiz-board/quiz.component';
 
 @NgModule({
   imports: [
@@ -32,13 +32,11 @@ import { QuizBoardComponent } from './quiz-board/quiz.component';
     NbSelectModule,
     NbListModule,
     NbIconModule,
-    NbButtonModule,
     NgxEchartsModule,
+    QuizModule,
   ],
   declarations: [
     DashboardComponent,
-    QuizBoardComponent,
-    QuizComponent,
   ],
 })
 export class DashboardModule { }

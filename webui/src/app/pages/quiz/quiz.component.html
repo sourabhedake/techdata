@@ -1,0 +1,59 @@
+<div class="row">
+  <ngx-quiz-board class=" col-md-12 col-lg-12" [quizType]="quizTypes.ACTIVE" [quiz]=quizList.active.quiz[0]
+    *ngIf="quizList.active.quiz.length">
+  </ngx-quiz-board>
+</div>
+<div class="row">
+  <div class="infinite-cards col-md-12 col-lg-12">
+    <nb-card class="own-scroll vertical" accent="primary">
+      <nb-card-header>Active Quizes</nb-card-header>
+      <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextActive()">
+        <nb-list-item *ngFor="let quizzes of quizList.active.quizBucket">
+          <div class="row">
+            <ngx-quiz-card class="col-md-2 col-lg-2" [quiz]="quiz" *ngFor="let quiz of quizzes"></ngx-quiz-card>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.UPCOMING" [quiz]=quizList.upcoming.quiz[0]
+    *ngIf="quizList.upcoming.quiz.length">
+  </ngx-quiz-board>
+</div>
+<div class="row">
+  <div class="infinite-cards col-md-12 col-lg-12">
+    <nb-card class="own-scroll vertical" accent="info">
+      <nb-card-header>Upcoming Quizes</nb-card-header>
+      <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextUpcoming()">
+        <nb-list-item *ngFor="let quizzes of quizList.upcoming.quizBucket">
+          <div class="row">
+            <ngx-quiz-card class="col-md-2 col-lg-2" [quiz]="quiz" *ngFor="let quiz of quizzes">
+            </ngx-quiz-card>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="quizTypes.ARCHIVE" [quiz]=quizList.archive.quiz[0]
+    *ngIf="quizList.archive.quiz.length">
+  </ngx-quiz-board>
+</div>
+<div class="row">
+  <div class="infinite-cards col-md-12 col-lg-12">
+    <nb-card class="own-scroll vertical" accent="danger">
+      <nb-card-header>Archive Quiz</nb-card-header>
+      <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextArchive()">
+        <nb-list-item *ngFor="let quizzes of quizList.archive.quizBucket">
+          <div class="row">
+            <ngx-quiz-card class="col-md-2 col-lg-2" [quiz]="quiz" *ngFor="let quiz of quizzes">
+            </ngx-quiz-card>
+          </div>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
+</div>

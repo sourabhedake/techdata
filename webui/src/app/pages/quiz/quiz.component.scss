@@ -1,0 +1,24 @@
+@import '../../@theme/styles/themes';
+@import '~bootstrap/scss/mixins/breakpoints';
+@import '~@nebular/theme/styles/global/breakpoints';
+
+@include nb-install-component() {
+
+  .infinite-cards {
+    nb-card {
+      &.own-scroll.horizontal {
+        height: -webkit-fill-available;
+        nb-card-header {
+          align-items: center;
+        }
+      }
+      &.own-scroll.vertical {
+        height: 20rem;
+
+        nb-card-header {
+          align-items: center;
+        }
+      }
+    }
+  }
+}

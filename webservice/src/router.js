@@ -3,6 +3,7 @@ const Router = require('koa-router')
 const _ = require('ramda')
 const router = new Router()
 
+
 const authRoutes = require('./auth/router')
 const adminRoutes = require('./admin/router')
 const domainRoutes = require('./domain/router')

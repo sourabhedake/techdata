@@ -6,11 +6,11 @@ const util = require('../util')
 const url = require('url')
 
 
-async function createQuiz(request_body, ctx) {
-    const quizName = request_body.quizName;
-    const domainName = request_body.domainName;
-    const description = request_body.description;
-
+async function createQuiz({
+    quizName,
+    domainName,
+    description
+}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -69,12 +69,12 @@ async function createQuiz(request_body, ctx) {
     }
 }
 
-async function addQuestion(request_body, ctx) {
-    const quizId = request_body.quizId;
-    const questionText = request_body.questionText;
-    const choice = request_body.choice;
-    const answer = request_body.answer;
-
+async function addQuestion({
+    quizId,
+    questionText,
+    choice,
+    answer,
+}) {
     const questionId = util.generateRandomString(5)
     await db.questions.create({
         questionText,
@@ -95,7 +95,7 @@ async function addQuestion(request_body, ctx) {
 
 }
 
-async function showAllQuizzes(request_body, ctx) {
+async function showAllQuizzes() {
 
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
@@ -118,9 +118,9 @@ async function showAllQuizzes(request_body, ctx) {
 
 }
 
-async function showQuiz(request_body, ctx) {
-    const quizId = request_body.quizId;
-
+async function showQuiz({
+    quizId
+}) {
     const result = await db.quiz.findOne({ quizId: quizId });
     if (!result) {
         return util.httpResponse(400, {
@@ -199,10 +199,10 @@ async function showDomain(request,response) {
     })
 }
 
-async function createDomain(request_body, ctx) {
-    const domainName = request_body.domainName;
-    const description = request_body.description;
-
+async function createDomain({
+    domainName,
+    description
+}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -232,9 +232,9 @@ async function createDomain(request_body, ctx) {
     }
 }
 
-async function showQuestion(request_body, ctx) {
-    const questionId = request_body.questionId;
-
+async function showQuestion({
+    questionId
+}) {
     const result = await db.questions.findOne({ questionId: questionId })
     if (!result) {
         return util.httpResponse(400, {
@@ -276,9 +276,9 @@ async function showQuestion(request_body, ctx) {
     }
 }
 
-async function showAllQuestions(request_body, ctx) {
-    const quizId = request_body.quizId;
-
+async function showAllQuestions({
+    quizId
+}) {
     const result = await db.questions.find({ quizId: quizId }, { startTime: 1, questionId: 1, questionText: 1, choice: 1, answer: 1 })
     if (!result) {
         return util.httpResponse(400, {
