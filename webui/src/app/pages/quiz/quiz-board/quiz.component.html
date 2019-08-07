@@ -1,11 +1,36 @@
-<nb-card size="medium" *ngIf="quizType==='active'">
+<nb-card size="medium" *ngIf="quizType==='ACTIVE'">
   <div class="picture" style.background-image="">
     <p>{{quizTimerText}}</p>
   </div>
   <div class="details">
-    <div class="h4">Active Quiz</div>
+    <div class="h4">Active Contest</div>
     <div class="description">
       DESCRIPTION {{quizTimerText}}
     </div>
   </div>
 </nb-card>
+
+<nb-card size="medium" *ngIf="quizType==='UPCOMING'">
+  <div class="picture" style.background-image="">
+    <p>{{quizTimerText}}</p>
+  </div>
+  <div class="details">
+    <div class="h4">Upcoming Quiz</div>
+    <div class="description">
+      DESCRIPTION {{quizTimerText}}
+    </div>
+  </div>
+</nb-card>
+
+<nb-card size="medium" *ngIf="quizType==='ARCHIVE'">
+  <div class="picture" style.background-image="">
+    <p>{{quizTimerText}}</p>
+  </div>
+  <div class="details">
+    <div class="h4">Past Quiz</div>
+    <div class="description">
+      DESCRIPTION {{quizTimerText}}
+    </div>
+  </div>
+</nb-card>
+

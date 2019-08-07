@@ -106,41 +106,50 @@ export class QuizComponent implements OnDestroy {
         console.log("donee" + data);
         this.pushIntoQuiz(quiz, {
           'title': 'title',
-          'text': quizType + quiz.count
+          'text': quizType + quiz.count,
+          'id': quiz.count
         });
       }, (err) => {
         console.log("Error: ", err.error);
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
           this.pushIntoQuiz(quiz, {
             'title': 'title',
-            'text': quizType + quiz.count
+            'text': quizType + quiz.count,
+            'id': quiz.count
           });
 
       });
