@@ -5,7 +5,7 @@
 <div class="row" *ngIf="quizList.active.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="primary">
-      <nb-card-header>Active Quizes</nb-card-header>
+      <nb-card-header>Active Quizzes</nb-card-header>
       <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextActive()">
         <nb-list-item *ngFor="let quizzes of quizList.active.quizBucket">
           <div class="row">
@@ -23,7 +23,7 @@
 <div class="row" *ngIf="quizList.upcoming.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="info">
-      <nb-card-header>Upcoming Quizes</nb-card-header>
+      <nb-card-header>Upcoming Quizzes</nb-card-header>
       <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextUpcoming()">
         <nb-list-item *ngFor="let quizzes of quizList.upcoming.quizBucket">
           <div class="row">
@@ -43,7 +43,7 @@
 <div class="row" *ngIf="quizList.archive.quizBucket.length">
   <div class="infinite-cards col-md-12 col-lg-12">
     <nb-card class="own-scroll vertical" accent="danger">
-      <nb-card-header>Archive Quiz</nb-card-header>
+      <nb-card-header>Quiz Museum</nb-card-header>
       <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextArchive()">
         <nb-list-item *ngFor="let quizzes of quizList.archive.quizBucket">
           <div class="row">
