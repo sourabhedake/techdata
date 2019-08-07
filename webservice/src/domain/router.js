@@ -8,16 +8,10 @@ const handler = wrapHandlerModule(require('./handler'))
 const Router = require('koa-router')
 
 const router = new Router({
-    prefix: '/domain'
+    prefix: '/domains'
 })
 
-router.post('/quiz/create', handler.createQuiz)
-router.get('/quiz/showAll', handler.showAllQuizzes)
-router.post('/quiz/addQuestion', handler.addQuestion)
-router.post('/quizId', handler.showQuiz)
-router.post('/create', handler.createDomain)
-router.get('/showAll', handler.showAllDomains)
-router.post('/domainId', handler.showDomain)
-router.post('/quiz/questionId', handler.showQuestion)
-router.post('/quiz/questions', handler.showAllQuestions)
+router.post('/', handler.createDomain)
+router.get('/', handler.showAllDomains)
+router.get('/:domainId', handler.showDomain)
 module.exports = router
