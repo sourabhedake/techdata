@@ -155,7 +155,9 @@ async function getActiveQuizzes() {
 
     if (!result) {
         return util.httpResponse(404, {
-            message: 'No Quiz found'
+            data: {
+                errMsg: 'No quiz found'
+            }
         })
     }
     
@@ -188,16 +190,25 @@ async function getActiveQuizzes() {
         }
         resultArray.push(quizDetails);
     }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
     return util.httpResponse(200, {
         data: resultArray
     })
 }
 
 async function getUpcomingQuizzes() {
-    const result = await db.quiz.find({}, { startTime: 1, quizId: 1 })
+    const result = await db.quiz.find({});
     if (!result) {
         return util.httpResponse(404, {
-            message: 'No Quiz found'
+            data: {
+                errMsg: 'No quiz found'
+            }
         })
     }
     var date = new Date();
@@ -206,15 +217,23 @@ async function getUpcomingQuizzes() {
         var startTime = res.startTime;
         var activationTime = new Date(startTime);
         if (date < activationTime) {
-            const quizDetails = {
+            resultArray.push({
                 quizId: res.quizId,
-                startTime: res.startTime
-            }
-            resultArray.push(quizDetails)
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
+            });
         }
     }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
     return util.httpResponse(200, {
-        result: resultArray
+        data: resultArray
     })
 }
 
