@@ -3,6 +3,7 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const moment = require('moment');
 
 async function scheduleQuiz({
     startTime,
@@ -156,16 +157,18 @@ async function getActiveQuizzes() {
             }
         })
     }
-    var date = new Date();
+    
+    var date = new moment();
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
         var interval = res.interval;
-        var startTimecorrect = new Date(startTime);
-        var activeTime = new Date(startTime);
-        var hours = interval + startTimecorrect.getHours();
-        activeTime.setHours(hours);
-        if (date > startTime && date < activeTime) {
+
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        startTimeC = startTimeC.add(interval, 'hours');
+        
+        if (date > activeTime && startTimeC > date) {
             resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
