@@ -7,4 +7,27 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  .question {
+    text-align: center;
+  }
+  
+  nb-card {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  nb-card-body {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
+  nb-radio-group {
+    display: flex;
+    padding: 1rem;
+  }
+
+  .choice-check {
+    padding: 1rem;
+  }
 }

@@ -6,6 +6,8 @@ import {
   NbIconModule,
   NbTabsetModule,
   NbButtonModule,
+  NbRadioModule,
+  NbCheckboxModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';
@@ -14,6 +16,7 @@ import { QuizCardComponent } from './quiz-card/quiz.component';
 import { QuizBoardComponent } from './quiz-board/quiz.component';
 import { RestClientService } from '../../@core/utils';
 import { QuizViewComponent } from './quiz-view/quiz.component';
+import { RouterModule } from '@angular/router';
 import { QuizPageComponent } from './quiz-page/quiz.component';
 
 @NgModule({
@@ -22,8 +25,11 @@ import { QuizPageComponent } from './quiz-page/quiz.component';
     NbCardModule,
     NbButtonModule,
     NbTabsetModule,
+    NbRadioModule,
+    NbCheckboxModule,
     NbUserModule,
     NbListModule,
+    RouterModule,
     NbIconModule,
   ],
   declarations: [
@@ -35,6 +41,7 @@ import { QuizPageComponent } from './quiz-page/quiz.component';
   ],
   exports: [
     QuizViewComponent,
+    QuizPageComponent,
     QuizCardComponent,
     QuizBoardComponent,
   ],

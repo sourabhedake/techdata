@@ -104,7 +104,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   navigateQuiz() {
-    this.router.navigateByUrl('pages/quiz');
+    this.router.navigateByUrl('pages/quizzes');
     return false;
   }
 }

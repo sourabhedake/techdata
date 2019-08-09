@@ -7,7 +7,7 @@ import {
 } from '../../../@core/utils';
 
 @Component({
-  selector: 'ngx-quiz',
+  selector: 'ngx-quiz-page',
   styleUrls: ['./quiz.component.scss'],
   templateUrl: './quiz.component.html',
 })

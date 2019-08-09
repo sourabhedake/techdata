@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 
 import { PagesComponent } from './pages.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { QuizComponent } from './quiz/quiz.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
+import { QuizComponent } from './quiz/quiz.component';
 import { QuizViewComponent } from './quiz/quiz-view/quiz.component';
 import { QuizPageComponent } from './quiz/quiz-page/quiz.component';
 
@@ -17,21 +17,16 @@ const routes: Routes = [{
       component: DashboardComponent,
     },
     {
-      path: 'quiz',
+      path: 'quizzes',
       component: QuizComponent,
     },
     {
-      path: 'quiz/:id',
+      path: 'quizzes/:id',
       component: QuizViewComponent,
     },
     {
-      path: 'quiz/:id/contest-page',
+      path: 'quizzes/:id/contest-page',
       component: QuizPageComponent,
-    },
-    {
-      path: 'miscellaneous',
-      loadChildren: () => import('./miscellaneous/miscellaneous.module')
-        .then(m => m.MiscellaneousModule),
     },
     {
       path: '',

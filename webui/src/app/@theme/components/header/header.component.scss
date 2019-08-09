@@ -7,6 +7,19 @@
   justify-content: space-between;
   width: 100%;
 
+  .logo-img {
+    background-image: url('assets/images/logo.png');
+    background-position: center;
+    background-size: cover;
+    position: relative;
+    border-top-left-radius: nb-theme(card-border-radius);
+    border-top-right-radius: nb-theme(card-border-radius);
+    flex: 1;
+    height: 3rem;
+    width: 3rem;
+    margin-right: 2rem;
+  }
+
   .logo-container {
     display: flex;
     align-items: center;

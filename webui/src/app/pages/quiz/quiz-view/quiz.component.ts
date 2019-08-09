@@ -8,6 +8,8 @@ import {
 } from '../../../@core/utils';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map } from 'leaflet';
 
 @Component({
   selector: 'ngx-quiz',
@@ -27,11 +29,14 @@ export class QuizViewComponent implements OnDestroy, OnInit {
   }
 
   navigateQuizPage() {
-    this.router.navigateByUrl('pages/quiz/' + this.parameter.quiz_id + '/contest-page');
+    this.router.navigateByUrl('pages/quizzes/' + this.parameter.quiz_id + '/contest-page');
+    return false;
   }
 
   ngOnInit() {
-    this.parameter.quiz_id = this.actRouter.snapshot.paramMap.get('id');
+    this.actRouter.paramMap.subscribe((params: ParamMap) => {
+      this.parameter.quiz_id = params.get('id');
+    });
   }
 
   ngOnDestroy() {}
