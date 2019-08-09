@@ -169,13 +169,14 @@ async function getActiveQuizzes() {
         startTimeC = startTimeC.add(interval, 'hours');
         
         if (date > activeTime && startTimeC > date) {
-            const quizDetails = {
+            resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
-            }
-            resultArray.push(quizDetails);
+                startTime: res.startTime,
+                interval: res.interval,
+            });
         }
     }
     if (!resultArray.length) {
@@ -469,6 +470,7 @@ module.exports = {
     showQuiz,
     getActiveQuizzes,
     getUpcomingQuizzes,
+    getArchivedQuizzes,
     startQuiz,
     scheduleQuiz,
     hoF
