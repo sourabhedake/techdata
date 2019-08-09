@@ -3,6 +3,7 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const moment = require('moment');
 
 async function scheduleQuiz({
     startTime,
@@ -157,25 +158,35 @@ async function getActiveQuizzes() {
             message: 'No Quiz found'
         })
     }
+    
     console.log("hello");
-    var date = new Date();
+    var date = new moment();
+    console.log(date.toDate());
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
+        console.log(startTime);
         var interval = res.interval;
-        var startTimecorrect = new Date(startTime);
-        var activeTime = new Date(startTime);
-        var hours = interval + startTimecorrect.getHours();
-        activeTime.setHours(hours);
-        console.log(activeTime);
-        if (date > startTime && date < activeTime) {
-            const quizDetails = {
-                quizId: res.quizId,
-                name: res.name,
-                domain: res.domain,
-                description: res.description,
-            })
+        console.log(interval);
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        console.log(activeTime.toDate());
+        if (date > activeTime) {
+            console.log("here");
+            var status = moment(startTimeC).add(2, 'hours');
+            console.log(status);
+            console.log(startTime);
+            if (startTime < date) {
+                console.log("yieppe");
+                const quizDetails = {
+                    quizId: res.quizId,
+                    name: res.name,
+                    domain: res.domain,
+                    description: res.description,
+                }
+            }
         }
+        resultArray.push(quizDetails);
     }
     return util.httpResponse(200, {
         data: resultArray

@@ -13,6 +13,7 @@
 		"koa-body": "2.5.0",
 		"koa-compress": "2.0.0",
 		"koa-router": "7.4.0",
+		"moment": "^2.24.0",
 		"mongoose": "^5.6.7",
 		"nodemon": "1.14.12",
 		"package.json": "^2.0.1",
