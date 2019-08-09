@@ -149,19 +149,27 @@ async function showQuiz({
 
 //format to give time 2019-08-07T10:23:55.053Z
 async function getActiveQuizzes() {
+
     const result = await db.quiz.find();
+
     if (!result) {
         return util.httpResponse(404, {
             message: 'No Quiz found'
         })
     }
+    console.log("hello");
     var date = new Date();
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
-        var activationTime = new Date(startTime);
-        if (date > activationTime) {
-            resultArray.push({
+        var interval = res.interval;
+        var startTimecorrect = new Date(startTime);
+        var activeTime = new Date(startTime);
+        var hours = interval + startTimecorrect.getHours();
+        activeTime.setHours(hours);
+        console.log(activeTime);
+        if (date > startTime && date < activeTime) {
+            const quizDetails = {
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
@@ -348,6 +356,48 @@ async function startQuiz({ userId }, ctx) {
     }
 }
 
+async function hoF({ },ctx) {
+    //active quizIds
+    const quizId = ctx.params.quizId;
+
+    const scoreArray = [];
+    const result = await db.score.find({ quizId:quizId }, { userId: 1, correct: 1 })
+    if (result) {
+        for (var res2 of result) {
+            const resultDetails = {
+                userId: res2.userId,
+                score: res2.correct
+            }
+            scoreArray.push(resultDetails)
+        }
+        scoreArray.sort(function (a, b) {
+            return a[2] - b[2]
+        });
+        console.log(scoreArray);
+
+        const userScores = [];
+        for (var res3 of scoreArray) {
+            const userId = res3.userId;
+            const result2 = await db.users.findOne({ userId: userId }, { userName: 1 });
+            if (result2) {
+                const userDetails = {
+                    userName: result2.userName,
+                    Score: res3.score
+                }
+                userScores.push(userDetails);
+            }
+        }
+        return util.httpResponse(200, {
+            result: userScores
+        })
+    }
+    else {
+        return util.httpResponse(200, {
+            message: 'No attempts yet'
+        })
+    }
+}
+
 module.exports = {
     createQuiz,
     showAllQuizzes,
@@ -355,5 +405,6 @@ module.exports = {
     getActiveQuizzes,
     getUpcomingQuizzes,
     startQuiz,
-    scheduleQuiz
+    scheduleQuiz,
+    hoF
 }

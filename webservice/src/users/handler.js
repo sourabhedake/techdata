@@ -24,6 +24,8 @@ async function getUserDetails({},ctx) {
     }
 }
 
+
+
 module.exports = {
     getUserDetails
 }
