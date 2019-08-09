@@ -12,7 +12,6 @@ export class QuizCardComponent {
   }
 
   navigateQuizView(id: string) {
-    console.log('pages/quiz/' + id);
     this.router.navigateByUrl('pages/quizzes/' + id);
     return false;
   }

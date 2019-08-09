@@ -1,6 +1,7 @@
 import {
   Component,
-  OnDestroy
+  OnDestroy,
+  OnInit
 } from '@angular/core';
 import {
   RestClientService
@@ -12,9 +13,14 @@ import {
   templateUrl: './quiz.component.html',
 })
 
-export class QuizPageComponent implements OnDestroy {
+export class QuizPageComponent implements OnDestroy, OnInit {
 
   constructor(private rc: RestClientService) {
+    console.log("constr");
+  }
+
+  ngOnInit() {
+    console.log("onIntit");
   }
 
   ngOnDestroy() {}

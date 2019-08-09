@@ -100,15 +100,16 @@ export class QuizComponent implements OnDestroy {
       return;
     }
     quiz.loading = true;
-    this.rc.call(this.rc.p().QUIZ_GET, [quizType])
+    this.rc.call(this.rc.p().QUIZ_GET, ["1/" + quizType.toLowerCase()])
       .pipe()
       .subscribe(data => {
-        console.log("donee" + data);
-        this.pushIntoQuiz(quiz, {
-          'title': 'title',
-          'text': quizType + quiz.count,
-          'id': quiz.count
+        console.log("donee" ,  data);
+
+        data.data.forEach(element => {
+          console.log(element);
+          this.pushIntoQuiz(quiz, element);  
         });
+        
       }, (err) => {
         console.log("Error: ", err.error);
           this.pushIntoQuiz(quiz, {

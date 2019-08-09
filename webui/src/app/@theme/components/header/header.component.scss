@@ -40,20 +40,26 @@
     padding: 0!important;
   }
 
+  a.logo {
+    span {
+      cursor: pointer;
+      color: nb-theme(text-basic-color);
+    }
+  }
+
+  a.logo:hover {
+    span {
+      cursor: pointer;
+      color: nb-theme(text-primary-color);
+    }
+  }
+
   .header-container {
     display: flex;
     align-items: center;
     width: auto;
 
-    span {
-      a {
-        color: nb-theme(text-basic-color);
-        cursor: pointer;
-      }
-      a:hover {
-        color: nb-theme(text-primary-color);
-      }
-    }
+    
     .sidebar-toggle {
       @include nb-ltr(padding-right, 1.25rem);
       @include nb-rtl(padding-left, 1.25rem);
