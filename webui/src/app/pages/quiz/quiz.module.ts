@@ -10,6 +10,8 @@ import {
   NbCheckboxModule,
   NbToastrModule,
 } from '@nebular/theme';
+import { RouterModule } from '@angular/router';
+import { CountdownModule } from 'ngx-countdown';
 
 import { ThemeModule } from '../../@theme/theme.module';
 import { QuizComponent } from './quiz.component';
@@ -17,7 +19,6 @@ import { QuizCardComponent } from './quiz-card/quiz.component';
 import { QuizBoardComponent } from './quiz-board/quiz.component';
 import { RestClientService } from '../../@core/utils';
 import { QuizViewComponent } from './quiz-view/quiz.component';
-import { RouterModule } from '@angular/router';
 import { QuizPageComponent } from './quiz-page/quiz.component';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { QuizPageComponent } from './quiz-page/quiz.component';
     NbListModule,
     RouterModule,
     NbIconModule,
+    CountdownModule,
   ],
   declarations: [
     QuizComponent,

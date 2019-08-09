@@ -171,6 +171,8 @@ async function getActiveQuizzes() {
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
+                startTime: res.startTime,
+                interval: res.interval,
             });
         }
     }
@@ -461,6 +463,7 @@ module.exports = {
     showQuiz,
     getActiveQuizzes,
     getUpcomingQuizzes,
+    getArchivedQuizzes,
     startQuiz,
     scheduleQuiz,
     hoF
