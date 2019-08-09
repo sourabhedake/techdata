@@ -229,7 +229,6 @@ async function getUpcomingQuizzes() {
 
 //format to give time 2019-08-07T10:23:55.053Z
 async function getArchivedQuizzes() {
-
     const result = await db.quiz.find();
 
     if (!result) {
@@ -239,22 +238,24 @@ async function getArchivedQuizzes() {
             }
         })
     }
-    var date = new Date();
+    
+    var date = new moment();
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
         var interval = res.interval;
-        var startTimecorrect = new Date(startTime);
-        var activeTime = new Date(startTime);
-        var hours = interval + startTimecorrect.getHours();
-        activeTime.setHours(hours);
-        if (date > activeTime) {
-            resultArray.push({
+
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        startTimeC = startTimeC.add(interval, 'hours');
+        if (date > startTimeC) {
+            const quizDetails = {
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
-            });
+            }
+            resultArray.push(quizDetails);
         }
     }
     if (!resultArray.length) {
@@ -440,7 +441,6 @@ async function hoF({ },ctx) {
         scoreArray.sort(function (a, b) {
             return a[2] - b[2]
         });
-        console.log(scoreArray);
 
         const userScores = [];
         for (var res3 of scoreArray) {
