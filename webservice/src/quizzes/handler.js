@@ -161,34 +161,25 @@ async function getActiveQuizzes() {
         })
     }
     
-    console.log("hello");
     var date = new moment();
-    console.log(date.toDate());
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
-        console.log(startTime);
         var interval = res.interval;
-        console.log(interval);
+
         var activeTime = new moment(startTime);
         var startTimeC = new moment(startTime);
-        console.log(activeTime.toDate());
-        if (date > activeTime) {
-            console.log("here");
-            var status = moment(startTimeC).add(2, 'hours');
-            console.log(status);
-            console.log(startTime);
-            if (startTime < date) {
-                console.log("yieppe");
-                const quizDetails = {
-                    quizId: res.quizId,
-                    name: res.name,
-                    domain: res.domain,
-                    description: res.description,
-                }
+        startTimeC = startTimeC.add(interval, 'hours');
+        
+        if (date > activeTime && startTimeC > date) {
+            const quizDetails = {
+                quizId: res.quizId,
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
             }
+            resultArray.push(quizDetails);
         }
-        resultArray.push(quizDetails);
     }
     if (!resultArray.length) {
         return util.httpResponse(404, {
