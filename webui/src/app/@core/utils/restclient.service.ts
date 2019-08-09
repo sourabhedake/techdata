@@ -16,7 +16,7 @@ const METHODS = {
 const URLS = {
   /* Authentication Routes*/
   AUTH_LOGIN: {
-    method: METHODS.GET,
+    method: METHODS.POST,
     url: WEB_SERVER + '/auth/login',
   },
 
