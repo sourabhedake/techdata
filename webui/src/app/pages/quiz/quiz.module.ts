@@ -8,6 +8,7 @@ import {
   NbButtonModule,
   NbRadioModule,
   NbCheckboxModule,
+  NbToastrModule,
 } from '@nebular/theme';
 
 import { ThemeModule } from '../../@theme/theme.module';

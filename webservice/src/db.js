@@ -131,9 +131,6 @@ score = mongoose.Schema({
         }
 });
 
-
-
-
 module.exports = {
     users:      mongoose.model('users', user),
     domain:     mongoose.model('domain', domain),

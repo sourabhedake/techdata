@@ -44,8 +44,7 @@ async function createQuiz({
     quizName,
     domainName,
     description
-}
-) {
+}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -105,7 +104,6 @@ async function createQuiz({
 }
 
 async function showAllQuizzes() {
-
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
         return util.httpResponse(400, {
@@ -124,7 +122,6 @@ async function showAllQuizzes() {
     return util.httpResponse(200, {
         result: resultArray
     })
-
 }
 
 async function showQuiz({
@@ -223,6 +220,49 @@ async function getUpcomingQuizzes() {
         data: resultArray
     })
 }
+
+//format to give time 2019-08-07T10:23:55.053Z
+async function getArchivedQuizzes() {
+
+    const result = await db.quiz.find();
+
+    if (!result) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
+    var date = new Date();
+    const resultArray = []
+    for (var res of result) {
+        var startTime = res.startTime;
+        var interval = res.interval;
+        var startTimecorrect = new Date(startTime);
+        var activeTime = new Date(startTime);
+        var hours = interval + startTimecorrect.getHours();
+        activeTime.setHours(hours);
+        if (date > activeTime) {
+            resultArray.push({
+                quizId: res.quizId,
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
+            });
+        }
+    }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
+    return util.httpResponse(200, {
+        data: resultArray
+    })
+}
+
 
 async function startQuiz({ userId }, ctx) {
     const quizId = ctx.params.quizId;
