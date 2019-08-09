@@ -15,9 +15,18 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Quiz',
-    icon: 'shopping-cart-outline',
-    link: '/pages/dashboard',
-    home: true,
+    icon: 'layout-outline',
+    link: '/pages/quizzes',
+    children: [
+      {
+        title: 'Create',
+        link: '/pages/layout/stepper',
+      },
+      {
+        title: 'List',
+        link: '/pages/quizzes',
+      }
+    ],
   },
   {
     title: 'Account',

@@ -110,19 +110,6 @@ async function showAllQuestions({
             message: 'No Questions allowed found'
         })
     }
-    const resultArray = []
-    for (var res of result) {
-        const questionDetails = {
-            questionId: res.questionId,
-            questionText: res.questionText,
-            choice: res.choice,
-            answer: res.answer
-        }
-        resultArray.push(questionDetails)
-    }
-    return util.httpResponse(200, {
-        result: resultArray
-    })
 }
 
 async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ctx) {
@@ -149,14 +136,16 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
             const result2 = await db.questions.findOne({ questionId: questionId }, { questionId: 1, questionText: 1, choice: 1 });
             console.log("fetch next ques id");
             if (result2) {
-                const questionDetails = {
-                    questionText: result2.questionText,
-                    choice: result2.choice,
-                    questionId: result2.questionId
-                }
                 return util.httpResponse(200, {
-                    result: questionDetails
-                })
+                    data: {
+                        question: {
+                            questionText: result2.questionText,
+                            choice: result2.choice,
+                            questionId: result2.questionId,
+                            attemptId: attemptId,
+                        }
+                    }
+                });
             }
         }
         else {
@@ -193,14 +182,14 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
                     })
 
                 const result9 = await db.score.findOne({ attemptId: attemptId, userId: userId, quizId: quizId }, { correct: 1, totalQuestions: 1 })
-                const resultDetails = {
-                    correct: result9.correct,
-                    totalQuestions: result9.totalQuestions
-                }
-
                 return util.httpResponse(200, {
-                    result: resultDetails
-                })
+                    data: {
+                        result: {
+                            correct: result9.correct,
+                            totalQuestions: result9.totalQuestions
+                        }
+                    }
+                });
             }
         }
     }

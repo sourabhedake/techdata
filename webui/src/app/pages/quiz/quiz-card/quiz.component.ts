@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'ngx-quiz-card',
+  styleUrls: ['./quiz.component.scss'],
   templateUrl: 'quiz.component.html',
 })
 export class QuizCardComponent {

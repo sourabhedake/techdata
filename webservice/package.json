@@ -33,7 +33,8 @@
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "npm install && \"node_modules/.bin/nodemon\" app.js",
-		"reset-users": "node scripts/reset-users.js"
+		"reset-users": "node scripts/reset-users.js",
+		"add-question": "node scripts/addQuestions.js"
 	},
 	"repository": {
 		"type": "git",

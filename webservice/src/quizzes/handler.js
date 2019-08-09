@@ -135,12 +135,13 @@ async function showQuiz({
         })
     }
     else {
-        const quizDetails = {
-            quizName: result.name,
-            domainName: result.domain
-        }
         return util.httpResponse(200, {
-            result: quizDetails
+            quizId: result.quizId,
+            name: result.name,
+            domain: result.domain,
+            description: result.description,
+            startTime: result.startTime,
+            interval: result.interval
         })
     }
 }
@@ -280,6 +281,7 @@ async function startQuiz({ userId }, ctx) {
                 attemptNo = res.attemptNo;
             }
         }
+    
         console.log(attemptNo);
         attemptNo = attemptNo + 1;
         console.log(attemptNo);
@@ -299,10 +301,11 @@ async function startQuiz({ userId }, ctx) {
                     const questionDetails = {
                         questionText: result3.questionText,
                         choice: result3.choice,
-                        questionId: result3.questionId
+                        questionId: result3.questionId,
+                        attemptId: attemptId,
                     }
                     return util.httpResponse(200, {
-                        result: questionDetails
+                        data: questionDetails
                     })
                 }
             }
@@ -346,7 +349,7 @@ async function startQuiz({ userId }, ctx) {
     const attemptId = util.generateRandomString(5);
     console.log("Getting all question ids in attempt table");
     console.log(attemptNo);
-    if (attemptNo > 1) {
+    if (attemptNo > 0) {
         const result7 = await db.quiz.find({ quizId: quizId }, { startTime: 1, interval: 1 })
         if (result7) {
             const interval = result7.interval;
@@ -358,7 +361,7 @@ async function startQuiz({ userId }, ctx) {
             console.log(activationTime);
             if (date < activationTime) {
                 return util.httpResponse(404, {
-                    message: 'Quiz attempted already'
+                    message: 'You can attempt quiz once while it\'s active.'
                 })
             }
         }
@@ -401,18 +404,20 @@ async function startQuiz({ userId }, ctx) {
         // now fetch first question for user
         const result6 = await db.questions.findOne({ quizId: quizId }, { questionId: 1, questionText: 1, choice: 1 });
         if (result6) {
-            const questionDetails = {
-                questionText: result6.questionText,
-                choice: result6.choice,
-                questionId: result6.questionId
-            }
             return util.httpResponse(200, {
-                result: questionDetails
-            })
+                data: {
+                    questionText: result6.questionText,
+                    choice: result6.choice,
+                    questionId: result6.questionId,
+                    attemptId : attemptId,
+                }
+            });
         }
         else {
-            return util.httpResponse(200, {
-                message: 'Cant find question details'
+            return util.httpResponse(404, {
+                data: {
+                    errMsg: 'Cannot find question details'
+                }
             })
         }
     }

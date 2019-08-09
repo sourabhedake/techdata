@@ -6,9 +6,9 @@
   </div>
 
   <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
-    <div class="h2">Quiz Name</div>
-    <div class="h6">Domain Name</div>
-    <p>Description</p>
+    <div class="h2">{{quiz.name}}</div>
+    <div class="h6">{{quiz.domain}}</div>
+    <p>{{quiz.description}}</p>
   </div>
 
   <div class="col-xxxl-3 col-xxl-3 col-lg-3 col-md-3">
@@ -24,14 +24,15 @@
       <nb-tabset fullWidth>
         <nb-tab tabTitle="Contest">
           <span>Contest</span>
+          
         </nb-tab>
-        <nb-tab tabTitle="Leaderboard">
+        <nb-tab tabTitle="Leaderboard" disabled>
           <span>Leaderboard</span>
         </nb-tab>
-        <nb-tab tabTitle="Discussion">
+        <nb-tab tabTitle="Discussion" disabled>
           <span>Discussion</span>
         </nb-tab>
-        <nb-tab tabTitle="Practice">
+        <nb-tab tabTitle="Practice" disabled>
           <span>Practice</span>
         </nb-tab>
       </nb-tabset>
@@ -39,7 +40,7 @@
   </div>
 </div>
 <div class="row col-md-12 col-lg-12 right">
-  <button nbButton shape="semi-round" (click)="navigateQuizPage()">
+  <button nbButton shape="semi-round" (click)="navigateQuizPage()" >
     Start Contest
   </button>
 </div>

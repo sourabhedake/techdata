@@ -57,6 +57,11 @@ const URLS = {
     url: WEB_SERVER + '/quizzes/{$$}/schedule',
   },
 
+  QUIZ_START: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/quizzes/{$$}/start',
+  },
+
   /* Domain Routes */
   DOMAIN_CREATE: {
     method: METHODS.POST,
@@ -87,6 +92,11 @@ const URLS = {
   QUESTION_CREATE: {
     method: METHODS.POST,
     url: WEB_SERVER + '/quizzes/{$$}/questions',
+  },
+
+  QUESTION_GET_NEXT: {
+    method: METHODS.POST,
+    url: WEB_SERVER + '/quizzes/{$$}/nextQuestion',
   },
 }
 
