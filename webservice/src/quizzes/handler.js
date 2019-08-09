@@ -149,7 +149,7 @@ async function showQuiz({
 
 //format to give time 2019-08-07T10:23:55.053Z
 async function getActiveQuizzes() {
-    const result = await db.quiz.find({}, { startTime: 1, quizId: 1 })
+    const result = await db.quiz.find();
     if (!result) {
         return util.httpResponse(404, {
             message: 'No Quiz found'
@@ -161,15 +161,16 @@ async function getActiveQuizzes() {
         var startTime = res.startTime;
         var activationTime = new Date(startTime);
         if (date > activationTime) {
-            const quizDetails = {
+            resultArray.push({
                 quizId: res.quizId,
-                startTime: res.startTime
-            }
-            resultArray.push(quizDetails)
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
+            })
         }
     }
     return util.httpResponse(200, {
-        result: resultArray
+        data: resultArray
     })
 }
 

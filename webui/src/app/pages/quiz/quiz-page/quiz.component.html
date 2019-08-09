@@ -1,0 +1,52 @@
+<div class="row">
+  <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+    <div class="h2">Quiz Name</div>
+    <div class="h5">Domain Name</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="question">
+          <div class="h6">
+            Question
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="radio-choice">
+          <nb-radio-group [(value)]="choices">
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="1">Option 1</nb-radio>
+            <nb-radio class="offset-md-4 col-md-2 offset-lg-4 col-lg-2" value="2">Option 2</nb-radio>
+          </nb-radio-group>
+          <nb-radio-group [(value)]="choices">
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="3">Option 3</nb-radio>
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-4 col-lg-2" value="4">Option 4</nb-radio>
+          </nb-radio-group>
+        </div>
+        <div class="check-choice">
+          <div class="row choice-check">
+            <nb-checkbox class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" status="primary">Check1</nb-checkbox>
+            <nb-checkbox class="offset-md-4 col-md-2 offset-lg-4 col-lg-2" status="primary">Check2</nb-checkbox>
+          </div>
+          <div class="row choice-check">
+            <nb-checkbox class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" status="primary">check3</nb-checkbox>
+            <nb-checkbox class="offset-md-4 col-md-2 offset-lg-4 col-lg-2" status="primary">check4</nb-checkbox>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<div class="row col-md-12 col-lg-12 right">
+  <button nbButton shape="semi-round" (click)="navigateQuizPage()">
+    Next >
+  </button>
+</div>
