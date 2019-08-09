@@ -228,7 +228,6 @@ async function getUpcomingQuizzes() {
 
 //format to give time 2019-08-07T10:23:55.053Z
 async function getArchivedQuizzes() {
-    console.log("hellp")
     const result = await db.quiz.find();
 
     if (!result) {
@@ -240,7 +239,6 @@ async function getArchivedQuizzes() {
     }
     
     var date = new moment();
-    console.log(date.toDate());
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
@@ -249,7 +247,6 @@ async function getArchivedQuizzes() {
         var activeTime = new moment(startTime);
         var startTimeC = new moment(startTime);
         startTimeC = startTimeC.add(interval, 'hours');
-        console.log(startTimeC.toDate());
         if (date > startTimeC) {
             const quizDetails = {
                 quizId: res.quizId,
@@ -439,7 +436,6 @@ async function hoF({ },ctx) {
         scoreArray.sort(function (a, b) {
             return a[2] - b[2]
         });
-        console.log(scoreArray);
 
         const userScores = [];
         for (var res3 of scoreArray) {
