@@ -227,7 +227,7 @@ async function getUpcomingQuizzes() {
 
 //format to give time 2019-08-07T10:23:55.053Z
 async function getArchivedQuizzes() {
-
+    console.log("hellp")
     const result = await db.quiz.find();
 
     if (!result) {
@@ -237,22 +237,26 @@ async function getArchivedQuizzes() {
             }
         })
     }
-    var date = new Date();
+    
+    var date = new moment();
+    console.log(date.toDate());
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
         var interval = res.interval;
-        var startTimecorrect = new Date(startTime);
-        var activeTime = new Date(startTime);
-        var hours = interval + startTimecorrect.getHours();
-        activeTime.setHours(hours);
-        if (date > activeTime) {
-            resultArray.push({
+
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        startTimeC = startTimeC.add(interval, 'hours');
+        console.log(startTimeC.toDate());
+        if (date > startTimeC) {
+            const quizDetails = {
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
-            });
+            }
+            resultArray.push(quizDetails);
         }
     }
     if (!resultArray.length) {
