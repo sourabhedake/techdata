@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {
   NbMenuModule,
   NbSidebarModule,
+  NbToastrModule,
 } from '@nebular/theme';
 import { NbAuthJWTInterceptor, NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '@nebular/auth';
 
@@ -26,7 +27,7 @@ import { NbAuthJWTInterceptor, NB_AUTH_TOKEN_INTERCEPTOR_FILTER } from '@nebular
     AppRoutingModule,
     
     ThemeModule.forRoot(),
-
+    NbToastrModule.forRoot(),
     NbSidebarModule.forRoot(),
     NbMenuModule.forRoot(),
     CoreModule.forRoot(),

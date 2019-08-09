@@ -157,7 +157,6 @@ async function getActiveQuizzes() {
             message: 'No Quiz found'
         })
     }
-    console.log("hello");
     var date = new Date();
     const resultArray = []
     for (var res of result) {
@@ -167,14 +166,13 @@ async function getActiveQuizzes() {
         var activeTime = new Date(startTime);
         var hours = interval + startTimecorrect.getHours();
         activeTime.setHours(hours);
-        console.log(activeTime);
         if (date > startTime && date < activeTime) {
-            const quizDetails = {
+            resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
-            })
+            });
         }
     }
     return util.httpResponse(200, {
