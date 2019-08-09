@@ -105,8 +105,10 @@ export class QuizComponent implements OnDestroy {
     this.rc.call(this.rc.p().QUIZ_GET, [quizType])
       .pipe()
       .subscribe(data => {
-        if (!data.data) {
+        console.log(data);
+        if (data.errMsg) {
           this.showToast(quizType + " Quiz", data.errMsg, 'danger');
+          return;
         }
         data.data.forEach(element => {
           console.log(element);
