@@ -15,7 +15,9 @@ function wrapHandler(handler) {
         } catch (error) {
             ctx.status = 500
             ctx.body = {
-                error: ' Internal Server Error. Please contact administrator.'
+                data: {
+                    errMsg: ' Internal Server Error. Please contact administrator.'
+                }
             }
         }
     }

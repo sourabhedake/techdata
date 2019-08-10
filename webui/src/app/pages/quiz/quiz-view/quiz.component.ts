@@ -53,7 +53,6 @@ export class QuizViewComponent implements OnDestroy, OnInit {
         }
         this.quiz = data;
       }, (err) => {
-        console.log("Error: ", err.error);
         this.showToast("Quiz", err.errMsg, 'danger');
       });
 

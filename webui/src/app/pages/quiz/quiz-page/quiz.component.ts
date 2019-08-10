@@ -55,7 +55,8 @@ export class QuizPageComponent implements OnDestroy, OnInit {
         this.cur_question = response.data.question;
         this.choices = 0;
       } else if (response.data.result) {
-       
+        this.router.navigateByUrl('pages/quizzes/' + this.parameter.quiz_id + '/attempts/' + response.data.result.attemptId + '/result');
+        return false;
       }
     },
       (err) => {
@@ -75,7 +76,11 @@ export class QuizPageComponent implements OnDestroy, OnInit {
             this.cur_question = response.data;
           },
           (err) => {
-            this.showToast('Quiz', 'Cannot start the quiz', 'danger');
+            var errMsg = err ? err.error ? err.error.data ? err.error.data.errMsg :'' :'' :'';
+            if (errMsg == '') {
+              errMsg = "Cannot start the quiz";
+            }
+            this.showToast('Quiz', errMsg, 'danger');
             this.router.navigateByUrl('pages/quizzes/' + this.parameter.quiz_id);
             return false;
           })

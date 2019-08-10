@@ -165,7 +165,7 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
                     }
                 }
 
-                const entry1 = await db.score.create({
+                await db.score.create({
                     attemptId
                 })
 
@@ -181,12 +181,10 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
                         state: true
                     })
 
-                const result9 = await db.score.findOne({ attemptId: attemptId, userId: userId, quizId: quizId }, { correct: 1, totalQuestions: 1 })
                 return util.httpResponse(200, {
                     data: {
                         result: {
-                            correct: result9.correct,
-                            totalQuestions: result9.totalQuestions
+                            attemptId: attemptId
                         }
                     }
                 });
@@ -208,7 +206,7 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
                     score = score + 1;
                 }
             }
-            const entry1 = await db.score.create({
+            await db.score.create({
                 attemptId
             })
 
@@ -224,17 +222,20 @@ async function nextQuestion({ userId, attemptId, previousQtnId, userAnswer }, ct
                     state: true
                 })
 
-            const result9 = await db.score.findOne({ attemptId: attemptId, userId: userId, quizId: quizId }, { correct: 1, totalQuestions: 1 })
-            const resultDetails = {
-                correct: result9.correct,
-                totalQuestions: result9.totalQuestions
-            }
-
             return util.httpResponse(200, {
-                result: resultDetails
+                data: {
+                    result: {
+                        attemptId: attemptId
+                    }
+                }
             })
         }
     }
+    return util.httpResponse(500, {
+        data: {
+            errMsg: "Internal Server Error"
+        }
+    });
 }
 
 module.exports = {

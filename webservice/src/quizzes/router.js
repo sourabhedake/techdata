@@ -20,4 +20,6 @@ router.get('/ARCHIVE', handler.getArchivedQuizzes)
 router.get('/:quizId', handler.showQuiz)
 router.post('/:quizId/start', handler.startQuiz)
 router.get('/:quizId/hoF',handler.hoF)
+router.get('/:quizId/attempts/:attemptId/result',handler.getQuizResult)
+
 module.exports = router

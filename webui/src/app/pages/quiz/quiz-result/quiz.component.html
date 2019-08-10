@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-xxxl-6 col-xxl-6 col-lg-6 col-md-6">
+    <div class="h2">Quiz Name</div>
+    <div class="h5">Domain Name</div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-12">
+    <nb-card>
+      <nb-card-body>
+        <div class="result">
+          <div class="h6">
+            Your scored {{result.score}} XP points!!!
+          </div>
+        </div>
+        <div>
+          Stats:
+          <div>
+            Questions Attempted: {{result.questionCount}}
+          </div>
+        </div>
+        <div class="flex-centered col-xl-4 col-lg-6 col-md-8 col-sm-12">
+          <button nbButton fullWidth (click)="navigateToHome()" type="button">
+            Go to Dashboard
+          </button>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

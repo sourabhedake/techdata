@@ -323,7 +323,7 @@ async function startQuiz({ userId }, ctx) {
                         }
                     }
                 }
-                const entry1 = await db.score.create({
+                await db.score.create({
                     attemptId
                 })
                 await db.score.findOneAndUpdate({
@@ -351,18 +351,21 @@ async function startQuiz({ userId }, ctx) {
     console.log("Getting all question ids in attempt table");
     console.log(attemptNo);
     if (attemptNo > 0) {
-        const result7 = await db.quiz.find({ quizId: quizId }, { startTime: 1, interval: 1 })
+        const result7 = await db.quiz.findOne({ quizId: quizId })
         if (result7) {
-            const interval = result7.interval;
-            var date = new Date();
+            console.log(result7);
+            var date = new moment();
+            var interval = result7.interval;
+            console.log(interval);
             var startTime = result7.startTime;
-            var activationTime = new Date(startTime);
-            console.log(activationTime);
-            activationTime.setHours(activationTime.getHours() + interval);
-            console.log(activationTime);
-            if (date < activationTime) {
-                return util.httpResponse(404, {
-                    message: 'You can attempt quiz once while it\'s active.'
+            var activeTime = new moment(startTime);
+            activeTime = activeTime.add(interval, 'hours');
+            console.log(date, activeTime, interval);
+            if (date < activeTime) {
+                return util.httpResponse(400, {
+                    data: {
+                        errMsg: 'You have already attempted the quiz.'
+                    }
                 })
             }
         }
@@ -465,6 +468,30 @@ async function hoF({ },ctx) {
     }
 }
 
+async function getQuizResult({}, ctx) {
+    const quizId = ctx.params.quizId;
+    const attemptId = ctx.params.attemptId;
+    const userId=null;
+
+    console.log("attt", quizId, attemptId);
+    const result = await db.score.findOne({ attemptId: attemptId, userId: userId, quizId: quizId }, { correct: 1, totalQuestions: 1 })
+    if (result) {
+
+        return util.httpResponse(200, {
+            data: {
+                result: {
+                    score: result.correct,
+                    questionCount: result.totalQuestions
+                }
+            }
+        });
+    }
+    return util.httpResponse(400, {
+        data: {
+            errMsg: 'Unable to get results'
+        }
+    });
+}
 module.exports = {
     createQuiz,
     showAllQuizzes,
@@ -472,6 +499,7 @@ module.exports = {
     getActiveQuizzes,
     getUpcomingQuizzes,
     getArchivedQuizzes,
+    getQuizResult,
     startQuiz,
     scheduleQuiz,
     hoF

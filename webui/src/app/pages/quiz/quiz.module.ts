@@ -20,6 +20,7 @@ import { QuizBoardComponent } from './quiz-board/quiz.component';
 import { RestClientService } from '../../@core/utils';
 import { QuizViewComponent } from './quiz-view/quiz.component';
 import { QuizPageComponent } from './quiz-page/quiz.component';
+import { QuizResultComponent } from './quiz-result/quiz.component';
 
 @NgModule({
   imports: [
@@ -39,12 +40,11 @@ import { QuizPageComponent } from './quiz-page/quiz.component';
     QuizComponent,
     QuizViewComponent,
     QuizPageComponent,
+    QuizResultComponent,
     QuizCardComponent,
     QuizBoardComponent,
   ],
   exports: [
-    QuizViewComponent,
-    QuizPageComponent,
     QuizCardComponent,
     QuizBoardComponent,
   ],

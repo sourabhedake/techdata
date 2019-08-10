@@ -52,6 +52,11 @@ const URLS = {
     url: WEB_SERVER + '/quizzes/{$$}',
   },
 
+  QUIZ_GET_RESULT: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/quizzes/{$$}/attempts/{$$}/result',
+  },
+
   QUIZ_SCHEDULE: {
     method: METHODS.POST,
     url: WEB_SERVER + '/quizzes/{$$}/schedule',
@@ -131,6 +136,7 @@ export class RestClientService {
   private getURI(uri: string, params: string[]): string {
     params.forEach(param => {
       uri = uri.replace('{$$}', param);
+      console.log("PARAM", uri);
     });
     return uri;
   }
