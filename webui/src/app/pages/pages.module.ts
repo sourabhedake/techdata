@@ -7,6 +7,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { QuizModule } from './quiz/quiz.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { DomainComponent } from './domain/domain.component';
+import { DomainModule } from './domain/domain.module';
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
     NbMenuModule,
     DashboardModule,
     QuizModule,
+    DomainModule,
     MiscellaneousModule,
   ],
   declarations: [

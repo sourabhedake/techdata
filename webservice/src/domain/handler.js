@@ -3,6 +3,7 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const quizHandler = require("../quizzes/handler");
 
 async function getDomainMenuItems() {
     const domains = await db.map_subdomain.find({});
@@ -62,37 +63,27 @@ async function getDomainMenuItems() {
     })
 }
 
+async function getQuizzesForDomain({}, ctx) {
+    return util.httpResponse(200, {});
+    // return quizHandler.getActiveQuizzes({}, ctx);
+}
+
 async function showDomain({},ctx)
 {
     const domainId = ctx.params.domainId;
-    const resultArray = [];
     const result = await db.domain.findOne({ domainId: domainId });
     if (!result) {
-        return util.httpResponse(400, {
-            message: 'No domain with this domainId found'
+        return util.httpResponse(404, {
+            message: 'No domain with this domain identifier found'
         })
     }
-    else {
-        const domainDetails = {
-            domain: result.name,
+
+    return util.httpResponse(200, {
+        data: {
+            domainName: result.name,
             description: result.description
         }
-        resultArray.push(domainDetails);
-        for (var Id of result.quizId) {
-            const result1 = await db.quiz.find({ quizId: Id }, { name: 1 })
-            for (var res of result1) {
-                const quizDetails = {
-                    quizId: Id,
-                    quizName: res.name
-                }
-                resultArray.push(quizDetails);
-            }
-        }
-
-    }
-    return util.httpResponse(200, {
-        result: resultArray
-    })
+    });
 }
 
 async function createDomain({
@@ -106,7 +97,7 @@ async function createDomain({
     if (!result) {
         const domainId = util.generateRandomString(5)
 
-        const domain1 = await db.domain.create({
+        await db.domain.create({
             domainName,
             domainId
         })
@@ -131,5 +122,6 @@ async function createDomain({
 module.exports = {
     getDomainMenuItems,
     showDomain,
-    createDomain
+    createDomain,
+    getQuizzesForDomain,
 }

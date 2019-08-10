@@ -116,7 +116,7 @@ async function showAllQuizzes() {
         const quizDetails = {
             quizId: res.quizId,
             quizName: res.name,
-            domainName: res.domain
+            domainName: res.domainId
         }
         resultArray.push(quizDetails)
     }
@@ -138,7 +138,7 @@ async function showQuiz({
         return util.httpResponse(200, {
             quizId: result.quizId,
             name: result.name,
-            domain: result.domain,
+            domain: result.domainId,
             description: result.description,
             startTime: result.startTime,
             interval: result.interval
@@ -149,7 +149,14 @@ async function showQuiz({
 //format to give time 2019-08-07T10:23:55.053Z
 async function getActiveQuizzes() {
 
-    const result = await db.quiz.find();
+    const domainId = ctx.params.domainId;
+    const filterQuery = {};
+
+    if (!domainId) {
+        filterQuery = {domainId: domainId};
+    }
+    
+    const result = await db.quiz.find(filterQuery);
 
     if (!result) {
         return util.httpResponse(404, {
@@ -173,7 +180,7 @@ async function getActiveQuizzes() {
             resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domain,
+                domain: res.domainId,
                 description: res.description,
                 startTime: res.startTime,
                 interval: res.interval,
@@ -210,7 +217,7 @@ async function getUpcomingQuizzes() {
             resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domain,
+                domain: res.domainId,
                 description: res.description,
             });
         }
@@ -252,7 +259,7 @@ async function getArchivedQuizzes() {
             const quizDetails = {
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domain,
+                domain: res.domainId,
                 description: res.description,
             }
             resultArray.push(quizDetails);

@@ -84,7 +84,7 @@ practice = mongoose.Schema({
 quiz = mongoose.Schema({
     quizId: String,
     name: String,
-    domain: String,
+    domainId: String,
     img: String,
     description: String,
     startTime: String,

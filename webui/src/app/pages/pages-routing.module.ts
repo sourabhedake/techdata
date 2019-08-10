@@ -8,6 +8,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuizViewComponent } from './quiz/quiz-view/quiz.component';
 import { QuizPageComponent } from './quiz/quiz-page/quiz.component';
 import { QuizResultComponent } from './quiz/quiz-result/quiz.component';
+import { DomainComponent } from './domain/domain.component';
 
 const routes: Routes = [{
   path: '',
@@ -16,6 +17,10 @@ const routes: Routes = [{
     {
       path: 'dashboard',
       component: DashboardComponent,
+    },
+    {
+      path: 'domains/:id',
+      component: DomainComponent,
     },
     {
       path: 'quizzes',
