@@ -73,9 +73,9 @@ const URLS = {
     url: WEB_SERVER + '/domains',
   },
 
-  DOMAIN_GET_ALL: {
+  DOMAIN_GET_MENU: {
     method: METHODS.GET,
-    url: WEB_SERVER + '/domains',
+    url: WEB_SERVER + '/domains/menuitems',
   },
 
   DOMAIN_GET: {

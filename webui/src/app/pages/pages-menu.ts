@@ -1,18 +1,15 @@
 import { NbMenuItem } from '@nebular/theme';
 
-export const MENU_ITEMS: NbMenuItem[] = [
+export const DASHBOARD_MENU: NbMenuItem[] = [
   {
     title: 'Dashboard',
     icon: 'shopping-cart-outline',
     link: '/pages/dashboard',
     home: true,
-  },
-  {
-    title: 'Domains',
-    icon: 'shopping-cart-outline',
-    link: '/pages/dashboard',
-    home: true,
-  },
+  }
+];
+
+export const ADMIN_MENU: NbMenuItem[] = [
   {
     title: 'Quiz',
     icon: 'layout-outline',
@@ -28,23 +25,30 @@ export const MENU_ITEMS: NbMenuItem[] = [
       }
     ],
   },
+]
+
+export const QUIZ_MENU: NbMenuItem[] = [
   {
-    title: 'Account',
-    group: true,
-  },
-  {
-    title: 'Profile',
+    title: 'Quiz',
     icon: 'layout-outline',
-    link: '/pages/layout/stepper',
+    link: '/pages/quizzes',
+    children: [
+      {
+        title: 'Create',
+        link: '/pages/layout/stepper',
+      },
+      {
+        title: 'List',
+        link: '/pages/quizzes',
+      }
+    ],
   },
-  {
-    title: 'Settings',
-    icon: 'layout-outline',
-    link: '/pages/layout/stepper',
-  },
+];
+
+export const ACCOUNT_MENU: NbMenuItem[] = [
   {
     title: 'Log out',
     icon: 'layout-outline',
-    link: '/pages/layout/stepper',
+    link: '/auth/logout',
   },
 ];

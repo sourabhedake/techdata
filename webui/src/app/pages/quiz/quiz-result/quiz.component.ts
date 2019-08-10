@@ -49,6 +49,7 @@ export class QuizResultComponent implements OnDestroy, OnInit {
         .subscribe(response => {
             if (response.data.result) {
               this.result = response.data.result;
+              console.log ()
               return;
             }
             this.showToast('Quiz Results', response.data.errMsg, 'danger');

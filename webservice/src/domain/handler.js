@@ -4,26 +4,62 @@ const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
 
-async function showAllDomains() {
-    const result = await db.domain.find({}, { domainId: 1, name: 1, description: 1 })
-    if (!result) {
-        return util.httpResponse(400, {
+async function getDomainMenuItems() {
+    const domains = await db.map_subdomain.find({});
+    if (!domains) {
+        return util.httpResponse(404, {
             message: 'No Domains found'
         })
     }
+
+    const domain_map = new Map();
+    for (var domain of domains) {
+        var subdomains = new Set (domain_map.get(domain.domain));
+        subdomains.add(domain.subDomain);
+        domain_map.set(domain.domain, subdomains);
+    }
+
     const resultArray = []
-    for (var res of result) {
-        const domainDetails = {
-            domainId: res.domainId,
-            domainName: res.name,
-            description: res.description
+    const addedDomains = []
+    for (var [domain, subdomains] of domain_map) {
+        const domain_res = await db.domain.findOne({ domainId: domain});
+        if (domain_res) {
+            addedDomains.push(domain);
+            const domainDetails = {
+                domainId: domain_res.domainId,
+                title: domain_res.name,
+                link: '/pages/domains',
+                children: []
+            }
+
+            for (let subdomain of subdomains) {
+                const subdomain_res = await db.domain.findOne({ domainId: subdomain });
+                if (subdomain_res) {
+                    addedDomains.push(subdomain);
+                    domainDetails.children.push({
+                        domainId: subdomain_res.domainId,
+                        title: subdomain_res.name,
+                        link: domainDetails.link +  '/' + subdomain_res.domainId
+                    })
+                }
+            };
+            resultArray.push(domainDetails)
         }
-        resultArray.push(domainDetails)
+        
+    }
+    const other_domains = await db.domain.find({domainId : { $nin: addedDomains}});
+    console.log(other_domains);
+    if (other_domains.length) {
+        other_domains.forEach(domain => {
+            resultArray.push({
+                title: domain.name,
+                link: '/pages/domains/' + domain.domainId,
+            });
+        })
     }
     return util.httpResponse(200, {
-        result: resultArray
+        data: resultArray
     })
-
 }
 
 async function showDomain({},ctx)
@@ -93,7 +129,7 @@ async function createDomain({
 }
 
 module.exports = {
-    showAllDomains,
+    getDomainMenuItems,
     showDomain,
     createDomain
 }
