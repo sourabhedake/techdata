@@ -5,19 +5,22 @@ const crypto = require('crypto')
 
 function wrapHandler(handler) {
     return async function (ctx, next) {
-        try {
+        // try {
             const response = await handler(ctx.request.body, _.merge(ctx, {}), next)
             if (response.redirect)
                 ctx.redirect(response.redirect)
             for (const key in response) {
                 ctx[key] = response[key]
             }
-        } catch (error) {
-            ctx.status = 500
-            ctx.body = {
-                error: ' Internal Server Error. Please contact administrator.'
-            }
-        }
+        // } catch (error) {
+        //     ctx.status = 500
+        //     ctx.body = {
+        //         data: {
+        //             error: error,
+        //             errMsg: ' Internal Server Error. Please contact administrator.'
+        //         }
+        //     }
+        // }
     }
 }
 

@@ -7,6 +7,7 @@ import { NotFoundComponent } from './miscellaneous/not-found/not-found.component
 import { QuizComponent } from './quiz/quiz.component';
 import { QuizViewComponent } from './quiz/quiz-view/quiz.component';
 import { QuizPageComponent } from './quiz/quiz-page/quiz.component';
+import { QuizResultComponent } from './quiz/quiz-result/quiz.component';
 
 const routes: Routes = [{
   path: '',
@@ -27,6 +28,10 @@ const routes: Routes = [{
     {
       path: 'quizzes/:id/contest-page',
       component: QuizPageComponent,
+    },
+    {
+      path: 'quizzes/:id/attempts/:attemptId/result',
+      component: QuizResultComponent,
     },
     {
       path: '',

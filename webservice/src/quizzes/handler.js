@@ -3,6 +3,7 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const moment = require('moment');
 
 async function scheduleQuiz({
     startTime,
@@ -44,8 +45,7 @@ async function createQuiz({
     quizName,
     domainName,
     description
-}
-) {
+}) {
     const result = await db.domain.findOne({
         name: domainName
     })
@@ -105,7 +105,6 @@ async function createQuiz({
 }
 
 async function showAllQuizzes() {
-
     const result = await db.quiz.find({}, { quizId: 1, name: 1, domain: 1 })
     if (!result) {
         return util.httpResponse(400, {
@@ -124,7 +123,6 @@ async function showAllQuizzes() {
     return util.httpResponse(200, {
         result: resultArray
     })
-
 }
 
 async function showQuiz({
@@ -137,12 +135,13 @@ async function showQuiz({
         })
     }
     else {
-        const quizDetails = {
-            quizName: result.name,
-            domainName: result.domain
-        }
         return util.httpResponse(200, {
-            result: quizDetails
+            quizId: result.quizId,
+            name: result.name,
+            domain: result.domain,
+            description: result.description,
+            startTime: result.startTime,
+            interval: result.interval
         })
     }
 }
@@ -154,28 +153,39 @@ async function getActiveQuizzes() {
 
     if (!result) {
         return util.httpResponse(404, {
-            message: 'No Quiz found'
+            data: {
+                errMsg: 'No quiz found'
+            }
         })
     }
-    console.log("hello");
-    var date = new Date();
+    
+    var date = new moment();
     const resultArray = []
     for (var res of result) {
         var startTime = res.startTime;
         var interval = res.interval;
-        var startTimecorrect = new Date(startTime);
-        var activeTime = new Date(startTime);
-        var hours = interval + startTimecorrect.getHours();
-        activeTime.setHours(hours);
-        console.log(activeTime);
-        if (date > startTime && date < activeTime) {
-            const quizDetails = {
+
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        startTimeC = startTimeC.add(interval, 'hours');
+        
+        if (date > activeTime && startTimeC > date) {
+            resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
                 domain: res.domain,
                 description: res.description,
-            })
+                startTime: res.startTime,
+                interval: res.interval,
+            });
         }
+    }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
     }
     return util.httpResponse(200, {
         data: resultArray
@@ -183,10 +193,12 @@ async function getActiveQuizzes() {
 }
 
 async function getUpcomingQuizzes() {
-    const result = await db.quiz.find({}, { startTime: 1, quizId: 1 })
+    const result = await db.quiz.find({});
     if (!result) {
         return util.httpResponse(404, {
-            message: 'No Quiz found'
+            data: {
+                errMsg: 'No quiz found'
+            }
         })
     }
     var date = new Date();
@@ -195,17 +207,69 @@ async function getUpcomingQuizzes() {
         var startTime = res.startTime;
         var activationTime = new Date(startTime);
         if (date < activationTime) {
-            const quizDetails = {
+            resultArray.push({
                 quizId: res.quizId,
-                startTime: res.startTime
-            }
-            resultArray.push(quizDetails)
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
+            });
         }
     }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
     return util.httpResponse(200, {
-        result: resultArray
+        data: resultArray
     })
 }
+
+//format to give time 2019-08-07T10:23:55.053Z
+async function getArchivedQuizzes() {
+    const result = await db.quiz.find();
+
+    if (!result) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
+    
+    var date = new moment();
+    const resultArray = []
+    for (var res of result) {
+        var startTime = res.startTime;
+        var interval = res.interval;
+
+        var activeTime = new moment(startTime);
+        var startTimeC = new moment(startTime);
+        startTimeC = startTimeC.add(interval, 'hours');
+        if (date > startTimeC) {
+            const quizDetails = {
+                quizId: res.quizId,
+                name: res.name,
+                domain: res.domain,
+                description: res.description,
+            }
+            resultArray.push(quizDetails);
+        }
+    }
+    if (!resultArray.length) {
+        return util.httpResponse(404, {
+            data: {
+                errMsg: 'No quiz found'
+            }
+        })
+    }
+    return util.httpResponse(200, {
+        data: resultArray
+    })
+}
+
 
 async function startQuiz({ userId }, ctx) {
     const quizId = ctx.params.quizId;
@@ -218,6 +282,7 @@ async function startQuiz({ userId }, ctx) {
                 attemptNo = res.attemptNo;
             }
         }
+    
         console.log(attemptNo);
         attemptNo = attemptNo + 1;
         console.log(attemptNo);
@@ -237,10 +302,11 @@ async function startQuiz({ userId }, ctx) {
                     const questionDetails = {
                         questionText: result3.questionText,
                         choice: result3.choice,
-                        questionId: result3.questionId
+                        questionId: result3.questionId,
+                        attemptId: attemptId,
                     }
                     return util.httpResponse(200, {
-                        result: questionDetails
+                        data: questionDetails
                     })
                 }
             }
@@ -257,7 +323,7 @@ async function startQuiz({ userId }, ctx) {
                         }
                     }
                 }
-                const entry1 = await db.score.create({
+                await db.score.create({
                     attemptId
                 })
                 await db.score.findOneAndUpdate({
@@ -284,19 +350,22 @@ async function startQuiz({ userId }, ctx) {
     const attemptId = util.generateRandomString(5);
     console.log("Getting all question ids in attempt table");
     console.log(attemptNo);
-    if (attemptNo > 1) {
-        const result7 = await db.quiz.find({ quizId: quizId }, { startTime: 1, interval: 1 })
+    if (attemptNo > 0) {
+        const result7 = await db.quiz.findOne({ quizId: quizId })
         if (result7) {
-            const interval = result7.interval;
-            var date = new Date();
+            console.log(result7);
+            var date = new moment();
+            var interval = result7.interval;
+            console.log(interval);
             var startTime = result7.startTime;
-            var activationTime = new Date(startTime);
-            console.log(activationTime);
-            activationTime.setHours(activationTime.getHours() + interval);
-            console.log(activationTime);
-            if (date < activationTime) {
-                return util.httpResponse(404, {
-                    message: 'Quiz attempted already'
+            var activeTime = new moment(startTime);
+            activeTime = activeTime.add(interval, 'hours');
+            console.log(date, activeTime, interval);
+            if (date < activeTime) {
+                return util.httpResponse(400, {
+                    data: {
+                        errMsg: 'You have already attempted the quiz.'
+                    }
                 })
             }
         }
@@ -339,18 +408,20 @@ async function startQuiz({ userId }, ctx) {
         // now fetch first question for user
         const result6 = await db.questions.findOne({ quizId: quizId }, { questionId: 1, questionText: 1, choice: 1 });
         if (result6) {
-            const questionDetails = {
-                questionText: result6.questionText,
-                choice: result6.choice,
-                questionId: result6.questionId
-            }
             return util.httpResponse(200, {
-                result: questionDetails
-            })
+                data: {
+                    questionText: result6.questionText,
+                    choice: result6.choice,
+                    questionId: result6.questionId,
+                    attemptId : attemptId,
+                }
+            });
         }
         else {
-            return util.httpResponse(200, {
-                message: 'Cant find question details'
+            return util.httpResponse(404, {
+                data: {
+                    errMsg: 'Cannot find question details'
+                }
             })
         }
     }
@@ -373,7 +444,6 @@ async function hoF({ },ctx) {
         scoreArray.sort(function (a, b) {
             return a[2] - b[2]
         });
-        console.log(scoreArray);
 
         const userScores = [];
         for (var res3 of scoreArray) {
@@ -398,12 +468,38 @@ async function hoF({ },ctx) {
     }
 }
 
+async function getQuizResult({}, ctx) {
+    const quizId = ctx.params.quizId;
+    const attemptId = ctx.params.attemptId;
+    const userId=null;
+
+    console.log("attt", quizId, attemptId);
+    const result = await db.score.findOne({ attemptId: attemptId, userId: userId, quizId: quizId }, { correct: 1, totalQuestions: 1 })
+    if (result) {
+
+        return util.httpResponse(200, {
+            data: {
+                result: {
+                    score: result.correct,
+                    questionCount: result.totalQuestions
+                }
+            }
+        });
+    }
+    return util.httpResponse(400, {
+        data: {
+            errMsg: 'Unable to get results'
+        }
+    });
+}
 module.exports = {
     createQuiz,
     showAllQuizzes,
     showQuiz,
     getActiveQuizzes,
     getUpcomingQuizzes,
+    getArchivedQuizzes,
+    getQuizResult,
     startQuiz,
     scheduleQuiz,
     hoF

@@ -1,6 +1,5 @@
 <article *ngIf="quiz">
-  <h2>{{quiz.name}}</h2>
+  <h2 class="link" (click)="navigateQuizView(quiz.quizId)">{{quiz.name}}</h2>
   <h5>{{quiz.domain}}</h5>
   <p>{{quiz.description}}</p>
-  <a href="" (click)="navigateQuizView(quiz.id)">More Details</a>
 </article>

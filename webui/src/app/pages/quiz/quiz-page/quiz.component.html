@@ -10,25 +10,31 @@
       <nb-card-body>
         <div class="question">
           <div class="h6">
-            Question
+            {{cur_question.questionText}}
           </div>
         </div>
       </nb-card-body>
     </nb-card>
   </div>
 </div>
+
+{{choices}}
 <div class="row">
   <div class="col-12">
+
     <nb-card>
       <nb-card-body>
+
         <div class="radio-choice">
           <nb-radio-group [(value)]="choices">
-            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="1">Option 1</nb-radio>
-            <nb-radio class="offset-md-4 col-md-2 offset-lg-4 col-lg-2" value="2">Option 2</nb-radio>
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="1">
+              {{cur_question.choice[0]}}</nb-radio>
+            <nb-radio class="offset-md-4 col-md-2 offset-lg-4 col-lg-2" value="2">
+              {{cur_question.choice[1]}}</nb-radio>
           </nb-radio-group>
           <nb-radio-group [(value)]="choices">
-            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="3">Option 3</nb-radio>
-            <nb-radio class="offset-md-2 col-md-2 offset-lg-4 col-lg-2" value="4">Option 4</nb-radio>
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-2 col-lg-2" value="3">{{cur_question.choice[2]}}</nb-radio>
+            <nb-radio class="offset-md-2 col-md-2 offset-lg-4 col-lg-2" value="4">{{cur_question.choice[3]}}</nb-radio>
           </nb-radio-group>
         </div>
         <div class="check-choice">
@@ -46,7 +52,7 @@
   </div>
 </div>
 <div class="row col-md-12 col-lg-12 right">
-  <button nbButton shape="semi-round" (click)="navigateQuizPage()">
+  <button nbButton shape="semi-round" (click)="getNextQuestion()" [disabled]="!choices">
     Next >
   </button>
 </div>

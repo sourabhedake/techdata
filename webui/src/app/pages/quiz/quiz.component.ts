@@ -5,6 +5,7 @@ import {
 import {
   RestClientService
 } from '../../@core/utils';
+import { NbToastrService, NbGlobalPosition, NbGlobalLogicalPosition, NbGlobalPhysicalPosition } from '@nebular/theme';
 
 @Component({
   selector: 'ngx-quiz',
@@ -63,7 +64,8 @@ export class QuizComponent implements OnDestroy {
     }
   }
 
-  constructor(private rc: RestClientService) {
+  constructor(private rc: RestClientService,
+              private toastrService: NbToastrService) {
     this.loadNextActive();
     this.loadNextArchive();
     this.loadNextUpcoming();
@@ -100,62 +102,28 @@ export class QuizComponent implements OnDestroy {
       return;
     }
     quiz.loading = true;
-    this.rc.call(this.rc.p().QUIZ_GET, ["1/" + quizType.toLowerCase()])
+    this.rc.call(this.rc.p().QUIZ_GET, [quizType])
       .pipe()
       .subscribe(data => {
-        console.log("donee" ,  data);
-
+        console.log(data);
+        if (data.errMsg) {
+          this.showToast(quizType + " Quiz", data.errMsg, 'danger');
+          return;
+        }
         data.data.forEach(element => {
           console.log(element);
           this.pushIntoQuiz(quiz, element);  
         });
-        
       }, (err) => {
         console.log("Error: ", err.error);
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-          this.pushIntoQuiz(quiz, {
-            'title': 'title',
-            'text': quizType + quiz.count,
-            'id': quiz.count
-          });
-
+        this.showToast(quizType + " Quiz", err.errMsg, 'danger');
       });
-    quiz.loading = false;
+    // quiz.loading = false;
   }
 
+  showToast(title: string, msg: string, status, duration=1000) {
+    const position: NbGlobalPosition = NbGlobalPhysicalPosition.BOTTOM_LEFT;
+    this.toastrService.show(title, msg, {position, status, duration, limit: 5});
+  }
   ngOnDestroy() {}
 }

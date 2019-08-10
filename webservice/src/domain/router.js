@@ -12,6 +12,6 @@ const router = new Router({
 })
 
 router.post('/', handler.createDomain)
-router.get('/', handler.showAllDomains)
+router.get('/menuitems', handler.getDomainMenuItems)
 router.get('/:domainId', handler.showDomain)
 module.exports = router
