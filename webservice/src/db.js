@@ -153,7 +153,21 @@ urls = mongoose.Schema({
             createdAt: 'createdAt',
             updatedAt: 'updatedAt'
         }
+    });
+
+news = mongoose.Schema({
+    newsId: String,
+    url: String,
+    heading: String,
+    description: String
+}, {
+        versionKey: false,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
 });
+
 
 module.exports = {
     users:      mongoose.model('users', user),
@@ -162,7 +176,8 @@ module.exports = {
     quiz:       mongoose.model('quizzes', quiz),
     questions:  mongoose.model('questions', questions),
     attempt:    mongoose.model('attempt', attempt),
-    urls:       mongoose.model('urls',urls)
+    urls:       mongoose.model('urls',urls),
     score:      mongoose.model('scores', score),
-    map_subdomain:      mongoose.model('map_subdomains', map_subdomain)
+    map_subdomain: mongoose.model('map_subdomains', map_subdomain),
+    news: mongoose.model('news', news),
 }
