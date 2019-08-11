@@ -44,7 +44,7 @@ export class QuizViewComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.actRouter.paramMap.subscribe((params: ParamMap) => {
       this.parameter.quiz_id = params.get('id');
-      this.rc.call(this.rc.p().QUIZ_GET, [this.parameter.quiz_id])
+      this.rc.call(this.rc.PATHS.QUIZ_GET, [this.parameter.quiz_id])
       .pipe()
       .subscribe(data => {
         if (data.errMsg) {

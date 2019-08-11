@@ -44,7 +44,7 @@ export class QuizPageComponent implements OnDestroy, OnInit {
 
   getNextQuestion() {
 
-    this.rc.call(this.rc.p().QUESTION_GET_NEXT, [this.parameter.quiz_id], {
+    this.rc.call(this.rc.PATHS.QUESTION_GET_NEXT, [this.parameter.quiz_id], {
       userId: null,
       attemptId: this.cur_question.attemptId,
       previousQtnId: this.cur_question.questionId,
@@ -70,7 +70,7 @@ export class QuizPageComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.actRouter.paramMap.subscribe((params: ParamMap) => {
       this.parameter.quiz_id = params.get('id');
-      this.rc.call(this.rc.p().QUIZ_START, [this.parameter.quiz_id])
+      this.rc.call(this.rc.PATHS.QUIZ_START, [this.parameter.quiz_id])
         .subscribe(response => {
             console.log(response);
             this.cur_question = response.data;

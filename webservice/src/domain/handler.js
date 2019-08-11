@@ -68,11 +68,6 @@ async function getDomainMenuItems() {
     })
 }
 
-async function getQuizzesForDomain({}, ctx) {
-    return util.httpResponse(200, {});
-    // return quizHandler.getActiveQuizzes({}, ctx);
-}
-
 async function showDomain({},ctx)
 {
     const domainId = ctx.params.domainId;

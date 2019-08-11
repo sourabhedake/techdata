@@ -45,7 +45,7 @@ export class QuizResultComponent implements OnDestroy, OnInit {
       this.parameter.quiz_id = params.get('id');
       this.parameter.attempt_id = params.get('attemptId');
 
-      this.rc.call(this.rc.p().QUIZ_GET_RESULT, [this.parameter.quiz_id, this.parameter.attempt_id])
+      this.rc.call(this.rc.PATHS.QUIZ_GET_RESULT, [this.parameter.quiz_id, this.parameter.attempt_id])
         .subscribe(response => {
             if (response.data.result) {
               this.result = response.data.result;

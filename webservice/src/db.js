@@ -157,12 +157,12 @@ urls = mongoose.Schema({
 
 module.exports = {
     users:      mongoose.model('users', user),
-    domain:     mongoose.model('domain', domain),
+    domain:     mongoose.model('domains', domain),
     practice:   mongoose.model('practice', practice),
-    quiz:       mongoose.model('quiz', quiz),
+    quiz:       mongoose.model('quizzes', quiz),
     questions:  mongoose.model('questions', questions),
     attempt:    mongoose.model('attempt', attempt),
-    score:      mongoose.model('score', score),
-    map_subdomain: mongoose.model('map_subdomain', map_subdomain),
     urls:       mongoose.model('urls',urls)
+    score:      mongoose.model('scores', score),
+    map_subdomain:      mongoose.model('map_subdomains', map_subdomain)
 }

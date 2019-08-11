@@ -27,7 +27,7 @@ export class PagesComponent {
 
   constructor(private nbMenuService: NbMenuService,
     private rc: RestClientService) {
-    rc.call(rc.PATHS.DOMAIN_GET_MENU).pipe().subscribe(response => {
+    this.rc.call(this.rc.PATHS.DOMAIN_GET_MENU).pipe().subscribe(response => {
       console.log(response);
       response.data.forEach(domain => {
         this.domainMenuItems[0].children.push(domain);
@@ -35,6 +35,8 @@ export class PagesComponent {
       this.nbMenuService.addItems(DASHBOARD_MENU.concat(this.domainMenuItems).concat(QUIZ_MENU).concat(ACCOUNT_MENU));
     }, (err) => {
         this.domainMenuItems = [];
+        this.nbMenuService.addItems(DASHBOARD_MENU.concat(QUIZ_MENU).concat(ACCOUNT_MENU));
+
     });
   }
 }

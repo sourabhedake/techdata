@@ -45,6 +45,7 @@ import { QuizResultComponent } from './quiz-result/quiz.component';
     QuizBoardComponent,
   ],
   exports: [
+    QuizComponent,
     QuizCardComponent,
     QuizBoardComponent,
   ],
