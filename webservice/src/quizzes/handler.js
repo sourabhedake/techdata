@@ -147,12 +147,12 @@ async function showQuiz({
 }
 
 //format to give time 2019-08-07T10:23:55.053Z
-async function getActiveQuizzes() {
+async function getActiveQuizzes({}, ctx) {
 
     const domainId = ctx.params.domainId;
-    const filterQuery = {};
+    var filterQuery = {};
 
-    if (!domainId) {
+    if (domainId) {
         filterQuery = {domainId: domainId};
     }
     
@@ -177,10 +177,13 @@ async function getActiveQuizzes() {
         startTimeC = startTimeC.add(interval, 'hours');
         
         if (date > activeTime && startTimeC > date) {
+            const domain_res = await db.domain.findOne({domainId: res.domainId});
+
             resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domainId,
+                domainId: res.domainId,
+                domainName: domain_res ? domain_res.name : '',
                 description: res.description,
                 startTime: res.startTime,
                 interval: res.interval,
@@ -190,7 +193,7 @@ async function getActiveQuizzes() {
     if (!resultArray.length) {
         return util.httpResponse(404, {
             data: {
-                errMsg: 'No quiz found'
+                errMsg: 'No active quiz found'
             }
         })
     }
@@ -199,8 +202,17 @@ async function getActiveQuizzes() {
     })
 }
 
-async function getUpcomingQuizzes() {
-    const result = await db.quiz.find({});
+async function getUpcomingQuizzes({}, ctx) {
+
+    const domainId = ctx.params.domainId;
+    var filterQuery = {};
+
+    if (domainId) {
+        filterQuery = { domainId: domainId };
+    }
+
+    const result = await db.quiz.find(filterQuery);
+
     if (!result) {
         return util.httpResponse(404, {
             data: {
@@ -214,10 +226,12 @@ async function getUpcomingQuizzes() {
         var startTime = res.startTime;
         var activationTime = new Date(startTime);
         if (date < activationTime) {
+            const domain_res = await db.domain.findOne({ domainId: res.domainId });
             resultArray.push({
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domainId,
+                domainId: res.domainId,
+                domainName: domain_res ? domain_res.name : '',
                 description: res.description,
             });
         }
@@ -225,7 +239,7 @@ async function getUpcomingQuizzes() {
     if (!resultArray.length) {
         return util.httpResponse(404, {
             data: {
-                errMsg: 'No quiz found'
+                errMsg: 'No upcoming quizzes scheduled.'
             }
         })
     }
@@ -235,8 +249,16 @@ async function getUpcomingQuizzes() {
 }
 
 //format to give time 2019-08-07T10:23:55.053Z
-async function getArchivedQuizzes() {
-    const result = await db.quiz.find();
+async function getArchivedQuizzes({}, ctx) {
+
+    const domainId = ctx.params.domainId;
+    var filterQuery = {};
+
+    if (domainId) {
+        filterQuery = { domainId: domainId };
+    }
+
+    const result = await db.quiz.find(filterQuery);
 
     if (!result) {
         return util.httpResponse(404, {
@@ -252,14 +274,15 @@ async function getArchivedQuizzes() {
         var startTime = res.startTime;
         var interval = res.interval;
 
-        var activeTime = new moment(startTime);
         var startTimeC = new moment(startTime);
         startTimeC = startTimeC.add(interval, 'hours');
         if (date > startTimeC) {
+            const domain_res = await db.domain.findOne({ domainId: res.domainId });
             const quizDetails = {
                 quizId: res.quizId,
                 name: res.name,
-                domain: res.domainId,
+                domainId: res.domainId,
+                domainName: domain_res ? domain_res.name : '',
                 description: res.description,
             }
             resultArray.push(quizDetails);
@@ -268,7 +291,7 @@ async function getArchivedQuizzes() {
     if (!resultArray.length) {
         return util.httpResponse(404, {
             data: {
-                errMsg: 'No quiz found'
+                errMsg: 'No past quizzes available.'
             }
         })
     }

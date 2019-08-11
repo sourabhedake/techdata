@@ -83,6 +83,16 @@ const URLS = {
     url: WEB_SERVER + '/domains/{$$}',
   },
 
+  DOMAIN_GET_QUIZZES: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/domains/{$$}/quizzes/{$$}',
+  },
+
+  DOMAIN_GET_DESCRIPTION: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/domains/{$$}/description',
+  },
+
   /* Question Routes */
   QUESTION_GET_ALL: {
     method: METHODS.GET,
@@ -123,10 +133,6 @@ export class RestClientService {
         return this.rclient.delete(this.getURI(restDto.url, query_params));
     }
     return null;
-  }
-
-  public p() {
-    return this.PATHS;
   }
 
   /* getURI

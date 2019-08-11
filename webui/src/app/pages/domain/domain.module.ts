@@ -16,6 +16,7 @@ import { CountdownModule } from 'ngx-countdown';
 import { ThemeModule } from '../../@theme/theme.module';
 import { DomainComponent } from './domain.component';
 import { RestClientService } from '../../@core/utils';
+import { QuizModule } from '../quiz/quiz.module';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { RestClientService } from '../../@core/utils';
     NbTabsetModule,
     NbButtonModule,
     NbListModule,
+    QuizModule,
     RouterModule,
   ],
   declarations: [

@@ -1,19 +1,32 @@
 import {
   Component,
   OnDestroy,
-  OnInit
+  OnInit,
+  SecurityContext
 } from '@angular/core';
 import {
   RestClientService
 } from '../../@core/utils';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { map } from 'leaflet';
-import { NbToastrService, NbGlobalPosition, NbGlobalPhysicalPosition } from '@nebular/theme';
+import {
+  Router,
+  ActivatedRoute,
+  ParamMap
+} from '@angular/router';
+import {
+  NbToastrService,
+  NbGlobalPosition,
+  NbGlobalPhysicalPosition
+} from '@nebular/theme';
+import {
+  QuizComponent
+} from '../quiz/quiz.component';
+import {
+  DomSanitizer,
+  SafeHtml
+} from '@angular/platform-browser';
 
 @Component({
-  selector: 'ngx-quiz',
+  selector: 'ngx-domain',
   styleUrls: ['./domain.component.scss'],
   templateUrl: './domain.component.html',
 })
@@ -27,43 +40,66 @@ export class DomainComponent implements OnDestroy, OnInit {
   domain = {
     name: '',
     domain: '',
-    description: ''
+    description: '',
+    knowledge: '',
   }
 
-  view = 1;
+  domain_description: SafeHtml;
 
   constructor(private rc: RestClientService,
-              private toastrService: NbToastrService,
-              private router: Router,
-              private actRouter: ActivatedRoute) {
+    private toastrService: NbToastrService,
+    private sanitizer: DomSanitizer,
+    private actRouter: ActivatedRoute,
+    private quizComponent: QuizComponent) {
+    quizComponent.bucketSize = 4;
   }
 
   ngOnInit() {
     this.actRouter.paramMap.subscribe((params: ParamMap) => {
       this.parameter.domain_id = params.get('id');
-      // this.rc.call(this.rc.p().DOMAIN_GET, [this.parameter.domain_id])
-      // .pipe()
-      // .subscribe(response => {
-      //   if (response.errMsg) {
-      //     this.showToast("Domain", response.errMsg, 'danger');
-      //     return;
-      //   }
-      //   this.domain = response.data;
-      // }, (err) => {
-      //   this.showToast("Domain", err.errMsg, 'danger');
-      // });
+      this.getDomainDescription();
 
+      this.quizComponent.clearQuiz();
+      this.quizComponent.domain_id = this.parameter.domain_id
+      this.loadNextActive();
+      this.loadNextUpcoming();
+      this.loadNextArchive();
     });
+  }
+
+
+  loadNextArchive() {
+    this.quizComponent.loadNextArchive();
+  }
+
+  loadNextUpcoming() {
+    this.quizComponent.loadNextUpcoming();
+  }
+
+  loadNextActive() {
+    this.quizComponent.loadNextActive();
+  }
+
+  getDomainDescription() {
+    this.rc.call(this.rc.PATHS.DOMAIN_GET_DESCRIPTION, [this.parameter.domain_id])
+      .pipe()
+      .subscribe(response => {
+        this.domain.knowledge = response.data;
+      }, (err) => {
+        this.domain.knowledge = this.sanitizer.sanitize(SecurityContext.HTML, "<p><b>Welcome</b> to the <h3>FUTURE</h3></p>");
+        this.showToast('Domain - ' + this.domain.name, 'No domain description available', 'danger');
+      })
   }
 
   ngOnDestroy() {}
 
-  showView(id: number) {
-    this.view = id;
-  }
-  
   showToast(title: string, msg: string, status, duration = 3000) {
     const position: NbGlobalPosition = NbGlobalPhysicalPosition.BOTTOM_LEFT;
-    this.toastrService.show(title, msg, { position, status, duration, limit: 5 });
+    this.toastrService.show(title, msg, {
+      position,
+      status,
+      duration,
+      limit: 5
+    });
   }
 }

@@ -36,8 +36,7 @@
   </div>
 </div>
 <div class="row" *ngIf="quizList.archive.quiz.length">
-  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="QUIZ_TYPES.ARCHIVE" [quiz]=quizList.archive.quiz[0]
-    *ngIf="quizList.archive.quiz.length">
+  <ngx-quiz-board class="col-md-12 col-lg-12" [quizType]="QUIZ_TYPES.ARCHIVE" [quiz]=quizList.archive.quiz[0]>
   </ngx-quiz-board>
 </div>
 <div class="row" *ngIf="quizList.archive.quizBucket.length">
