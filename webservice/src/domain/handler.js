@@ -121,38 +121,53 @@ async function createDomain({
 
 async function getInfoOfDomain({ }, ctx) {
     const domainId = ctx.params.domainId
-    const result = await db.urls.findOne({
+    const result = await db.domain_news.findOne({
         domainId: domainId
     })
 
     if (result) {
-        const URL = result.url;
-        console.log(URL);
-        const selector = result.filter;
-        console.log(selector);
-        var text = "";
-        console.log("jess");
+        var news = "";
         await new Promise(function (fulfill, reject) {
-            getdata(URL, selector, fulfill);
+            getdata(result.url, result.filter, fulfill, reject);
         }).then(function (parsedHtml) {
-            console.log(parsedHtml);
-            text = parsedHtml;
+            news = parsedHtml;
         });
-        return util.httpResponse(200, {
-            data: text
-        });
+        if (news) {
+            return util.httpResponse(200, {
+                data: news.data
+            });
+        } else {
+            return util.httpResponse(404, {
+                data: {
+                    errMsg: 'No domain knowledge data found'
+                }
+            });
+        }
     }
+    return util.httpResponse(404, {
+        data: {
+            errMsg: 'No domain knowledge data found'
+        }
+    });
 }
 
-function getdata(URL,selector,fulfill) {
-    request(URL, function (error, response, body) {
+function getdata(URL,selector,fulfill, reject) {
+    
+    request.get({
+        url: URL,
+        "rejectUnauthorized": false,
+    }, function (error, response, body) {
+        console.log(URL);
+        
+        console.log(response);
+        console.log(body);
         if (!error && response.statusCode == 200) {
             let $ = cheerio.load(body);
             var text = $(selector).clone();
             var text2 = ($("body").empty().html(text).html());
             fulfill({ data: text2 });
         } else {
-            fulfill({ data: null });
+            reject({})
         }
     });
 }
@@ -162,6 +177,5 @@ module.exports = {
     getDomainMenuItems,
     showDomain,
     createDomain,
-    getQuizzesForDomain,
     getInfoOfDomain
 }
