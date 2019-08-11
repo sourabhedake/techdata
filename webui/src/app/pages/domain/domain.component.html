@@ -1,12 +1,18 @@
 <div class="row">
   <div class="col-12">
-    <nb-card class="domain-card">
-      <nb-tabset fullWidth class="title">
-        <nb-tab tabTitle="Dashboard">
-          <h3>{{domain.domain}}</h3>
+    <nb-tabset fullWidth class="title">
+      <nb-tab tabTitle="Dashboard">
+        <nb-card accent="danger" [nbSpinner]="!domain.knowledge" nbSpinnerSize="small" nbSpinnerStatus="primary">
+          <nb-card-header>
+          <h3>{{domain.domainName}}</h3>
           <h5>{{domain.description}}</h5>
+          </nb-card-header>
+          <nb-card-body>
           <div [innerHtml]="domain.knowledge" property="binding">
           </div>
+          </nb-card-body>
+        </nb-card>
+
         </nb-tab>
         <nb-tab tabTitle="Practice" disabled>
         </nb-tab>
@@ -73,6 +79,5 @@
           </div>
         </nb-tab>
       </nb-tabset>
-    </nb-card>
   </div>
 </div>

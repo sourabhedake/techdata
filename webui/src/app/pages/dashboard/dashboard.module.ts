@@ -17,6 +17,8 @@ import { DashboardComponent } from './dashboard.component';
 import { FormsModule } from '@angular/forms';
 import { QuizModule } from '../quiz/quiz.module';
 import { QuizComponent } from '../quiz/quiz.component';
+import { NewsComponent } from './news/news.component';
+import { NewsCardComponent } from './news/news-card/news-card.component';
 
 @NgModule({
   imports: [
@@ -35,6 +37,8 @@ import { QuizComponent } from '../quiz/quiz.component';
     QuizModule,
   ],
   declarations: [
+    NewsComponent,
+    NewsCardComponent,
     DashboardComponent,
   ],
   providers: [

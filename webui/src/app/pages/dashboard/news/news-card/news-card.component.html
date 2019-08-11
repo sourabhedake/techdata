@@ -1,0 +1,5 @@
+<article *ngIf="news">
+  <h2>{{news.headline}}</h2>
+  <h6>{{news.description}}</h6>
+  <a [attr.href]="news.link">Read full article</a>
+</article>

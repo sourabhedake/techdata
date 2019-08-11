@@ -1,5 +1,6 @@
 <div class="row">
   <div class="col-xxxl-9 col-xxl-9 col-lg-9 col-md-9">
+    <ngx-news></ngx-news>
     <ngx-quiz-board [quizType]="quizComponent.QUIZ_TYPES.ACTIVE" [quiz]=quizComponent.quizList.active.quiz[0]
       *ngIf="quizComponent.quizList.active.quiz.length">
     </ngx-quiz-board>
@@ -25,7 +26,7 @@
           <nb-list-item *ngFor="let quizzes of quizComponent.quizList.upcoming.quizBucket">
             <div class="row">
               <ngx-quiz-card class="col-md-3 col-lg-3" [quiz]="quiz" *ngFor="let quiz of quizzes">
-                </ngx-quiz-card>
+              </ngx-quiz-card>
             </div>
           </nb-list-item>
         </nb-list>
@@ -44,7 +45,7 @@
         <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextArchive()">
           <nb-list-item *ngFor="let quiz of quizComponent.quizList.archive.quiz">
             <ngx-quiz-card [quiz]="quiz">
-              </ngx-quiz-card>
+            </ngx-quiz-card>
           </nb-list-item>
         </nb-list>
       </nb-card>

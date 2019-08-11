@@ -57,6 +57,7 @@ export class DomainComponent implements OnDestroy, OnInit {
   ngOnInit() {
     this.actRouter.paramMap.subscribe((params: ParamMap) => {
       this.parameter.domain_id = params.get('id');
+      this.getDomainIntro();
       this.getDomainDescription();
 
       this.quizComponent.clearQuiz();
@@ -80,14 +81,24 @@ export class DomainComponent implements OnDestroy, OnInit {
     this.quizComponent.loadNextActive();
   }
 
+  getDomainIntro() {
+    this.rc.call(this.rc.PATHS.DOMAIN_GET, [this.parameter.domain_id])
+      .pipe()
+      .subscribe(response => {
+        this.domain = response.data;
+      }, (err) => {
+        this.showToast('Domain - ' + this.domain.name, 'Unable to fetch domain details', 'danger');
+      })
+  }
+
   getDomainDescription() {
     this.rc.call(this.rc.PATHS.DOMAIN_GET_DESCRIPTION, [this.parameter.domain_id])
       .pipe()
       .subscribe(response => {
         this.domain.knowledge = response.data;
       }, (err) => {
-        this.domain.knowledge = this.sanitizer.sanitize(SecurityContext.HTML, "<p><b>Welcome</b> to the <h3>FUTURE</h3></p>");
-        this.showToast('Domain - ' + this.domain.name, 'No domain description available', 'danger');
+        this.domain.knowledge = this.sanitizer.sanitize(SecurityContext.HTML, "<p>Domain knowledge data <b>not available</b></p>");
+        this.showToast('Domain - ' + this.domain.name, err.error.data.errMsg, 'warning');
       })
   }
 

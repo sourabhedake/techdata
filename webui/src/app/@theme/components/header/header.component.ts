@@ -38,7 +38,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   currentTheme = 'default';
 
-  userMenu = []
+  accountMenu = []
   
   constructor(private sidebarService: NbSidebarService,
     private menuService: NbMenuService,
@@ -52,15 +52,17 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.currentTheme = this.themeService.currentTheme;
     var guestUser = {name: 'Guest', picture: 'assets/images/guest.png'}
+    this.accountMenu = [{ title: 'Log in', data: { id: 'login' }, link: '/auth/login' }];
+
     this.userService.getUser()
     .pipe(takeUntil(this.destroy$))
     .subscribe((user: any) => {
-      if (user === null) {
+      if (!user) {
         this.user = guestUser;
-        this.userMenu = [{ title: 'Log in', data: { id: 'login' }, link: '/auth/login' }];
+        this.accountMenu = [{ title: 'Log in', data: { id: 'login' }, link: '/auth/login' }];
       } else {
         this.user = user 
-        this.userMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' }, link: '/auth/logout'  }];
+        this.accountMenu = [{ title: 'Profile', data: { id: 'profile' } }, { title: 'Log out', data: { id: 'logout' }, link: '/auth/logout'  }];
       }
     });
 

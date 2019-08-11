@@ -113,6 +113,12 @@ const URLS = {
     method: METHODS.POST,
     url: WEB_SERVER + '/quizzes/{$$}/nextQuestion',
   },
+
+  /* Dashboard Routes */
+  DASHBOARD_GET_NEWS: {
+    method: METHODS.GET,
+    url: WEB_SERVER + '/newsfeed',
+  },
 }
 
 @Injectable()

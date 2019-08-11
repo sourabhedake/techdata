@@ -9,6 +9,7 @@ import {
   NbRadioModule,
   NbCheckboxModule,
   NbToastrModule,
+  NbSpinnerModule,
 } from '@nebular/theme';
 import { RouterModule } from '@angular/router';
 import { CountdownModule } from 'ngx-countdown';
@@ -24,6 +25,7 @@ import { QuizModule } from '../quiz/quiz.module';
     NbCardModule,
     NbTabsetModule,
     NbButtonModule,
+    NbSpinnerModule,
     NbListModule,
     QuizModule,
     RouterModule,

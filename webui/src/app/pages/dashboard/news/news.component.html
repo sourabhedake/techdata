@@ -1,0 +1,10 @@
+  <div class="infinite-cards" *ngIf="news.newsList.length">
+    <nb-card class="own-scroll" accent="warning">
+      <nb-card-header>Newsfeed</nb-card-header>
+      <nb-list nbInfiniteList [threshold]="10" (bottomThreshold)="loadNextFeed()">
+        <nb-list-item>
+          <ngx-news-card [news]="news" *ngFor="let news of news.newsList"></ngx-news-card>
+        </nb-list-item>
+      </nb-list>
+    </nb-card>
+  </div>
