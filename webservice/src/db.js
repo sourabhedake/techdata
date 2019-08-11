@@ -153,7 +153,21 @@ domain_news = mongoose.Schema({
             createdAt: 'createdAt',
             updatedAt: 'updatedAt'
         }
+    });
+
+news = mongoose.Schema({
+    newsId: String,
+    url: String,
+    heading: String,
+    description: String
+}, {
+        versionKey: false,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
 });
+
 
 module.exports = {
     users:      mongoose.model('users', user),
@@ -163,6 +177,7 @@ module.exports = {
     questions:  mongoose.model('questions', questions),
     attempt:    mongoose.model('attempts', attempt),
     score:      mongoose.model('scores', score),
+    news:       mongoose.model('news', news),
     domain_news: mongoose.model('domain_news', domain_news),
-    map_subdomain:     mongoose.model('map_subdomains', map_subdomain)
+    map_subdomain:     mongoose.model('map_subdomains', map_subdomain),
 }

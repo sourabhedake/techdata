@@ -14,9 +14,11 @@ const router = new Router({
 
 router.post('/', handler.createDomain)
 router.get('/menuitems', handler.getDomainMenuItems)
+router.get('/news', handler.fetchNews);
 router.get('/:domainId', handler.showDomain)  
 router.get('/:domainId/description', handler.getInfoOfDomain)
 router.get('/:domainId/quizzes/ACTIVE', quizHandler.getActiveQuizzes)
 router.get('/:domainId/quizzes/UPCOMING', quizHandler.getUpcomingQuizzes)
 router.get('/:domainId/quizzes/ARCHIVE', quizHandler.getArchivedQuizzes)
+
 module.exports = router

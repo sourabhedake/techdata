@@ -10,6 +10,52 @@ const request = require('request');
 const cheerio = require('cheerio');
 const fs = require('fs');
 
+async function getNews() {
+    const mainURL = "https://gadgets.ndtv.com/news"
+    request(mainURL, function (err, res, body) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            
+            let $ = cheerio.load(body);
+            $('div.caption_box>a').each(function (i, e) {
+                var url = $(this).attr('href');
+                request(url, function (err, res, body) {
+                    if (err) {
+                        console.log(err1);
+                    }
+                    else {
+                       
+                        let $ = cheerio.load(body);
+                        var heading = $('div.lead_heading').html();
+                        var description = $('div.content_text >p').first().text();
+
+                        const newsId = util.generateRandomString(5);
+
+                        const news = db.news.create({
+                            heading,
+                            newsId,
+                            url,
+                            description
+                        })
+                        const j = db.news.findOneAndUpdate({
+                            
+                        }, {
+                                url: url,
+                                heading: heading,
+                                description: description
+                            })
+                    }
+                });
+            });
+            return true;
+        }
+    }); 
+
+
+}
+
 async function getDomainMenuItems() {
     const domains = await db.map_subdomain.find({});
     if (!domains) {
@@ -172,10 +218,33 @@ function getdata(URL,selector,fulfill, reject) {
     });
 }
 
+async function fetchNews() {
+    const result = await db.news.find();
+    const newsDetails = [];
+    if (result) {
+        //console.log("fetching news");
+        for (var res of result) {
+            if (res.heading) {
+                const newsDet = {
+                    heading: res.heading,
+                    description: res.description,
+                    url: res.url
+                }
+                newsDetails.push(newsDet);
+            }
+        }
+        return util.httpResponse(200, {
+            data: newsDetails
+        });
+
+    }
+}
 
 module.exports = {
     getDomainMenuItems,
     showDomain,
     createDomain,
-    getInfoOfDomain
+    getInfoOfDomain,
+    getNews,
+    fetchNews
 }
