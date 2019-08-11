@@ -143,6 +143,18 @@ map_subdomain = mongoose.Schema({
         }
     });
 
+urls = mongoose.Schema({
+    domainId: String,
+    url: String,
+    filter: String
+}, {
+        versionKey: false,
+        timestamps: {
+            createdAt: 'createdAt',
+            updatedAt: 'updatedAt'
+        }
+});
+
 module.exports = {
     users:      mongoose.model('users', user),
     domain:     mongoose.model('domain', domain),
@@ -151,5 +163,6 @@ module.exports = {
     questions:  mongoose.model('questions', questions),
     attempt:    mongoose.model('attempt', attempt),
     score:      mongoose.model('score', score),
-    map_subdomain:      mongoose.model('map_subdomain', map_subdomain)
+    map_subdomain: mongoose.model('map_subdomain', map_subdomain),
+    urls:       mongoose.model('urls',urls)
 }

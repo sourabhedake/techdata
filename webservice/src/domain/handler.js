@@ -3,7 +3,12 @@
 const _ = require('ramda')
 const db = require('../db')
 const util = require('../util')
+const https = require('https');
+var Promise = require('promise');
 const quizHandler = require("../quizzes/handler");
+const request = require('request');
+const cheerio = require('cheerio');
+const fs = require('fs');
 
 async function getDomainMenuItems() {
     const domains = await db.map_subdomain.find({});
@@ -119,9 +124,49 @@ async function createDomain({
     }
 }
 
+async function getInfoOfDomain({ }, ctx) {
+    const domainId = ctx.params.domainId
+    const result = await db.urls.findOne({
+        domainId: domainId
+    })
+
+    if (result) {
+        const URL = result.url;
+        console.log(URL);
+        const selector = result.filter;
+        console.log(selector);
+        var text = "";
+        console.log("jess");
+        await new Promise(function (fulfill, reject) {
+            getdata(URL, selector, fulfill);
+        }).then(function (parsedHtml) {
+            console.log(parsedHtml);
+            text = parsedHtml;
+        });
+        return util.httpResponse(200, {
+            data: text
+        });
+    }
+}
+
+function getdata(URL,selector,fulfill) {
+    request(URL, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let $ = cheerio.load(body);
+            var text = $(selector).clone();
+            var text2 = ($("body").empty().html(text).html());
+            fulfill({ data: text2 });
+        } else {
+            fulfill({ data: null });
+        }
+    });
+}
+
+
 module.exports = {
     getDomainMenuItems,
     showDomain,
     createDomain,
     getQuizzesForDomain,
+    getInfoOfDomain
 }
