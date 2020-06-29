@@ -21,7 +21,7 @@
 	},
 	"devDependencies": {
 		"co": "4.6.0",
-		"eslint": "4.17.0",
+		"eslint": "7.3.1",
 		"eslint-plugin-fp": "2.3.0",
 		"eslint-plugin-mongodb": "0.2.4",
 		"eslint-plugin-security": "1.4.0",
